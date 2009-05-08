@@ -1,0 +1,5 @@
+ISO Schematron schema for DITA 1.1 and 1.2 that handles cases that DTDs or XML Schemas cannot control.
+
+Created by Jarno Elovirta <http://www.elovirta.com/>.
+
+Licensed under GNU General Public License, version 3.
