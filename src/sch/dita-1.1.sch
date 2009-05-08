@@ -2,7 +2,7 @@
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
 
   <p>
-    Copyright © 2008 Jarno Elovirta
+    Copyright © 2009 Jarno Elovirta
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
@@ -19,7 +19,7 @@
   </p>
 
   <p>
-    Version 2.0.0. released 2008-12-18.
+    Version 2.1.0. released 2009-05-08.
   </p>
 
   <!-- Phases -->
