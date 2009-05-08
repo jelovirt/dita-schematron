@@ -29,7 +29,6 @@
     <active pattern="othernote"/>
     <active pattern="indextermref"/>
     <active pattern="collection-type_on_rel"/>
-    <active pattern="keyref_attr"/>
   </phase>
   
   <phase id="recommendations">
@@ -37,7 +36,6 @@
     <active pattern="othernote"/>
     <active pattern="indextermref"/>
     <active pattern="collection-type_on_rel"/>
-    <active pattern="keyref_attr"/>
     
     <active pattern="role_attr_sample"/>
     <active pattern="role_attr_external"/>
@@ -152,13 +150,6 @@
     <param name="context" value="*[contains(@class, ' map/reltable ')]
                                | *[contains(@class, ' map/relcolspec ')]"/>
     <param name="attribute" value="'collection-type'"/>
-    <param name="reason" value="''"/>
-  </pattern>
-
-  <pattern is-a="future_use_attribute" id="keyref_attr">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html</p>
-    <param name="context" value="*"/>
-    <param name="attribute" value="'keyref'"/>
     <param name="reason" value="''"/>
   </pattern>
 
