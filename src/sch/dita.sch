@@ -127,7 +127,8 @@
   <!-- Required per spec -->
 
   <pattern id="otherrole">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
+    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/rel-atts.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
     <rule context="*[@role = 'other']">
       <assert test="@otherrole">
         <name/> with role 'other' should have attribute 'otherrole' set. </assert>
@@ -135,7 +136,8 @@
   </pattern>
 
   <pattern id="othernote">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/thetypeattribute.html</p>
+    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/note.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/thetypeattribute.html</p>
     <rule context="*[contains(@class,' topic/note ')][@type = 'other']">
       <assert test="@othertype">
         <name/> with type 'other' should have attribute 'othertype' set. </assert>
@@ -143,14 +145,15 @@
   </pattern>
 
   <pattern is-a="future_use_element" id="indextermref">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html</p>
+    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/indextermref.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html</p>
     <param name="context" value="*"/>
     <param name="element" value="*[contains(@class, ' topic/indextermref ')]"/>
     <param name="reason" value="''"/>
   </pattern>
 
   <pattern is-a="future_use_attribute" id="collection-type_on_rel">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html</p>
     <param name="context" value="*[contains(@class, ' map/reltable ')]
                                | *[contains(@class, ' map/relcolspec ')]"/>
     <param name="attribute" value="'collection-type'"/>
@@ -158,10 +161,11 @@
   </pattern>
   
   <pattern id="keyref_attr">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html</p>
+    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/ph.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html</p>
     <rule context="*[ancestor-or-self::*/@ditaarch:DITAArchVersion &lt;= 1.1]">
       <report test="@keyref">
-        The keyref attribute on <name/> is reserved for future use. XXX
+        The keyref attribute on <name/> is reserved for future use.
       </report>
     </rule>
   </pattern>
@@ -169,7 +173,8 @@
   <!-- Recommended per spec -->
 
   <pattern is-a="deprecated_element" id="boolean">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html</p>
+    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/boolean.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html</p>
     <param name="context" value="*"/>
     <param name="element" value="*[contains(@class, ' topic/boolean ')]"/>
     <param name="reason" value="'The state element should be used instead with value attribute of &quot;yes&quot; or &quot;no&quot;.'"
@@ -177,22 +182,24 @@
   </pattern>
 
   <pattern is-a="deprecated_attribute" id="image_alt_attr">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html</p>
+    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/image.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html</p>
     <param name="context" value="*[contains(@class, ' topic/image ')]"/>
     <param name="attribute" value="'alt'"/>
     <param name="reason" value="'The alt element should be used instead.'"/>
   </pattern>
 
   <pattern is-a="deprecated_attribute" id="query_attr">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html</p>
-    <param name="context" value="*[contains(@class, ' topic/link ')] |
-                                 *[contains(@class, ' map/topicref ')]"/>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html</p>
+    <param name="context" value="*[contains(@class, ' topic/link ')][ancestor-or-self::*/@ditaarch:DITAArchVersion >= 1.1] |
+                                 *[contains(@class, ' map/topicref ')][ancestor-or-self::*/@ditaarch:DITAArchVersion >= 1.1]"/>
     <param name="attribute" value="'query'"/>
     <param name="reason" value="'It may be removed in the future.'"/>
   </pattern>
 
   <pattern is-a="deprecated_attribute_value" id="role_attr_sample">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
+    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/rel-atts.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
     <param name="context" value="*[contains(@class, ' topic/related-links ')] |
                                  *[contains(@class, ' topic/link ')] |
                                  *[contains(@class, ' topic/linklist ')] |
@@ -203,7 +210,8 @@
   </pattern>
 
   <pattern is-a="deprecated_attribute_value" id="role_attr_external">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
+    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/rel-atts.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
     <param name="context" value="*[contains(@class, ' topic/related-links ')] |
                                  *[contains(@class, ' topic/link ')] |
                                  *[contains(@class, ' topic/linklist ')] |
@@ -214,7 +222,7 @@
   </pattern>
 
   <pattern id="single_paragraph">
-    <p>source: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html</p>
+    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html</p>
     <rule context="*[contains(@class, ' topic/topic ')]"
           subject="*[contains(@class, ' topic/body ')]/*[contains(@class, ' topic/p ')]">
       <report test="not(*[contains(@class, ' topic/shortdesc ')] | *[contains(@class, ' topic/abstract ')]) and
@@ -227,7 +235,7 @@
   </pattern>
   
   <pattern is-a="deprecated_attribute" id="navtitle">
-    <!--TODO: add source-->
+    <!--TODO 1.2: add source-->
     <param name="context" value="*[contains(@class, ' map/topicref ')]"/>
     <param name="attribute" value="'navtitle'"/>
     <param name="reason" value="'Preferred way to specify navigation title is navtitle element.'"/>
