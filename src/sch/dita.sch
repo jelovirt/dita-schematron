@@ -60,7 +60,7 @@
     <active pattern="xref_in_title"/>
     <active pattern="idless_title"/>
     <active pattern="required-cleanup"/>
-    <active pattern="spec_attrs"/>
+    <!--active pattern="spec_attrs"/-->
     <active pattern="no_topic_nesting"/>
   </phase>
 
@@ -298,6 +298,7 @@
     </rule>
   </pattern>
 
+  <!-- validation does not skip non-defaulted use.
   <pattern id="spec_attrs">
     <rule context="@spectitle | specentry">
       <report test="." role="warn">
@@ -305,6 +306,7 @@
       </report>
     </rule>
   </pattern>
+  -->
 
   <pattern id="no_topic_nesting">
     <rule context="no-topic-nesting">
