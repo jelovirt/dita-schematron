@@ -126,43 +126,34 @@
 
   <!-- Required per spec -->
 
-  <pattern id="otherrole">
-    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/rel-atts.html</p>
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
+  <pattern id="otherrole" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
     <rule context="*[@role = 'other']">
       <assert test="@otherrole">
         <name/> with role 'other' should have attribute 'otherrole' set. </assert>
     </rule>
   </pattern>
 
-  <pattern id="othernote">
-    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/note.html</p>
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/thetypeattribute.html</p>
+  <pattern id="othernote" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/thetypeattribute.html">
     <rule context="*[contains(@class,' topic/note ')][@type = 'other']">
       <assert test="@othertype">
         <name/> with type 'other' should have attribute 'othertype' set. </assert>
     </rule>
   </pattern>
 
-  <pattern is-a="future_use_element" id="indextermref">
-    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/indextermref.html</p>
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html</p>
+  <pattern is-a="future_use_element" id="indextermref" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html">
     <param name="context" value="*"/>
     <param name="element" value="*[contains(@class, ' topic/indextermref ')]"/>
     <param name="reason" value="''"/>
   </pattern>
 
-  <pattern is-a="future_use_attribute" id="collection-type_on_rel">
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html</p>
+  <pattern is-a="future_use_attribute" id="collection-type_on_rel" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html">
     <param name="context" value="*[contains(@class, ' map/reltable ')]
                                | *[contains(@class, ' map/relcolspec ')]"/>
     <param name="attribute" value="'collection-type'"/>
     <param name="reason" value="''"/>
   </pattern>
   
-  <pattern id="keyref_attr">
-    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/ph.html</p>
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html</p>
+  <pattern id="keyref_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html">
     <rule context="*[ancestor-or-self::*/@ditaarch:DITAArchVersion &lt;= 1.1]">
       <report test="@keyref">
         The keyref attribute on <name/> is reserved for future use.
@@ -172,34 +163,27 @@
   
   <!-- Recommended per spec -->
 
-  <pattern is-a="deprecated_element" id="boolean">
-    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/boolean.html</p>
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html</p>
+  <pattern is-a="deprecated_element" id="boolean" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html">
     <param name="context" value="*"/>
     <param name="element" value="*[contains(@class, ' topic/boolean ')]"/>
     <param name="reason" value="'The state element should be used instead with value attribute of &quot;yes&quot; or &quot;no&quot;.'"
     />
   </pattern>
 
-  <pattern is-a="deprecated_attribute" id="image_alt_attr">
-    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/image.html</p>
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html</p>
+  <pattern is-a="deprecated_attribute" id="image_alt_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html">
     <param name="context" value="*[contains(@class, ' topic/image ')]"/>
     <param name="attribute" value="'alt'"/>
     <param name="reason" value="'The alt element should be used instead.'"/>
   </pattern>
 
-  <pattern is-a="deprecated_attribute" id="query_attr">
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html</p>
-    <param name="context" value="*[contains(@class, ' topic/link ')][ancestor-or-self::*/@ditaarch:DITAArchVersion >= 1.1] |
-                                 *[contains(@class, ' map/topicref ')][ancestor-or-self::*/@ditaarch:DITAArchVersion >= 1.1]"/>
+  <pattern is-a="deprecated_attribute" id="query_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html">
+    <param name="context" value="*[@ditaarch:DITAArchVersion >= 1.1]//*[contains(@class, ' topic/link ')] |
+                                 *[@ditaarch:DITAArchVersion >= 1.1]//*[contains(@class, ' map/topicref ')]"/>
     <param name="attribute" value="'query'"/>
     <param name="reason" value="'It may be removed in the future.'"/>
   </pattern>
 
-  <pattern is-a="deprecated_attribute_value" id="role_attr_sample">
-    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/rel-atts.html</p>
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
+  <pattern is-a="deprecated_attribute_value" id="role_attr_sample" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
     <param name="context" value="*[contains(@class, ' topic/related-links ')] |
                                  *[contains(@class, ' topic/link ')] |
                                  *[contains(@class, ' topic/linklist ')] |
@@ -209,9 +193,7 @@
     <param name="reason" value="''"/>
   </pattern>
 
-  <pattern is-a="deprecated_attribute_value" id="role_attr_external">
-    <p>source 1.0: http://docs.oasis-open.org/dita/v1.0/langspec/rel-atts.html</p>
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html</p>
+  <pattern is-a="deprecated_attribute_value" id="role_attr_external" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
     <param name="context" value="*[contains(@class, ' topic/related-links ')] |
                                  *[contains(@class, ' topic/link ')] |
                                  *[contains(@class, ' topic/linklist ')] |
@@ -221,8 +203,7 @@
     <param name="reason" value="'Use the scope=&quot;external&quot; attribute to indicate external links.'"/>
   </pattern>
 
-  <pattern id="single_paragraph">
-    <p>source 1.1: http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html</p>
+  <pattern id="single_paragraph" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html">
     <rule context="*[contains(@class, ' topic/topic ')]"
           subject="*[contains(@class, ' topic/body ')]/*[contains(@class, ' topic/p ')]">
       <report test="not(*[contains(@class, ' topic/shortdesc ')] | *[contains(@class, ' topic/abstract ')]) and
@@ -234,40 +215,37 @@
     </rule>
   </pattern>
   
-  <pattern is-a="deprecated_attribute" id="navtitle">
+  <pattern id="navtitle">
     <!--TODO 1.2: add source-->
-    <param name="context" value="*[contains(@class, ' map/topicref ')]"/>
-    <param name="attribute" value="'navtitle'"/>
-    <param name="reason" value="'Preferred way to specify navigation title is navtitle element.'"/>
-  </pattern>
+    <rule context="*[@ditaarch:DITAArchVersion >= 1.2]//*[contains(@class, ' map/topicref ')]">
+      <report test="@navtitle">
+        The <value-of select="$attribute"/> attribute is deprecated. Preferred way to specify navigation title is navtitle element.
+      </report>
+    </rule>    
+  </pattern>  
   
   <!-- Recommended per convention -->
 
-  <pattern is-a="self_nested_element" id="self_nested_xref">
-    <p>source: http://www.w3.org/TR/html/#prohibitions</p>
+  <pattern is-a="self_nested_element" id="self_nested_xref" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/xref ')]"/>
   </pattern>
 
-  <pattern is-a="nested_element" id="image_in_pre">
-    <p>source: http://www.w3.org/TR/html/#prohibitions</p>
+  <pattern is-a="nested_element" id="image_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
     <param name="descendant" value="*[contains(@class, ' topic/image ')]"/>
   </pattern>
 
-  <pattern is-a="nested_element" id="object_in_pre">
-    <p>source: http://www.w3.org/TR/html/#prohibitions</p>
+  <pattern is-a="nested_element" id="object_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
     <param name="descendant" value="*[contains(@class, ' topic/object ')]"/>
   </pattern>
 
-  <pattern is-a="nested_element" id="sup_in_pre">
-    <p>source: http://www.w3.org/TR/html/#prohibitions</p>
+  <pattern is-a="nested_element" id="sup_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
     <param name="descendant" value="*[contains(@class, ' hi-d/sup  ')]"/>
   </pattern>
 
-  <pattern is-a="nested_element" id="sub_in_pre">
-    <p>source: http://www.w3.org/TR/html/#prohibitions</p>
+  <pattern is-a="nested_element" id="sub_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
     <param name="descendant" value="*[contains(@class, ' hi-d/sub  ')]"/>
   </pattern>  
