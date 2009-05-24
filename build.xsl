@@ -19,10 +19,10 @@
 
   <xsl:template match="/">
     <xsl:variable name="root" select="/" as="document-node()"/>
-    <xsl:for-each select="(1.0, 1.1, 1.2)">
+    <xsl:for-each select="(1.1, 1.2)">
       <xsl:result-document href="{replace(document-uri($root),
                                           '(.+)\.(.+)',
-                                          concat('$1_',
+                                          concat('$1-',
                                                  format-number(., '#.0'),
                                                  '.$2'))}">
         <xsl:apply-templates select="$root/node()">
