@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://purl.oclc.org/dsdl/schematron">
+<schema xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:e="http://dita-schematron.github.com/">
 
   <p>
     Copyright © 2009 Jarno Elovirta
@@ -153,8 +153,9 @@
     <param name="reason" value="''"/>
   </pattern>
   
-  <pattern id="keyref_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html">
-    <rule context="*[ancestor-or-self::*/@ditaarch:DITAArchVersion &lt;= 1.1]">
+  <pattern id="keyref_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html"
+           e:ditaVersions="1.0 1.1">
+    <rule context="*"><!--[ancestor-or-self::*/@ditaarch:DITAArchVersion &lt;= 1.1]-->
       <report test="@keyref">
         The keyref attribute on <name/> is reserved for future use.
       </report>
@@ -177,8 +178,8 @@
   </pattern>
 
   <pattern is-a="deprecated_attribute" id="query_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html">
-    <param name="context" value="*[@ditaarch:DITAArchVersion >= 1.1]//*[contains(@class, ' topic/link ')] |
-                                 *[@ditaarch:DITAArchVersion >= 1.1]//*[contains(@class, ' map/topicref ')]"/>
+    <param name="context" value="*[contains(@class, ' topic/link ')] |
+                                 *[contains(@class, ' map/topicref ')]"/><!--*[@ditaarch:DITAArchVersion >= 1.1]//-->
     <param name="attribute" value="'query'"/>
     <param name="reason" value="'It may be removed in the future.'"/>
   </pattern>
@@ -215,9 +216,8 @@
     </rule>
   </pattern>
   
-  <pattern id="navtitle">
-    <!--TODO 1.2: add source-->
-    <rule context="*[@ditaarch:DITAArchVersion >= 1.2]//*[contains(@class, ' map/topicref ')]">
+  <pattern id="navtitle" e:ditaVersions="1.2">
+    <rule context="*[contains(@class, ' map/topicref ')]"><!--*[@ditaarch:DITAArchVersion >= 1.2]//-->
       <report test="@navtitle">
         The <value-of select="$attribute"/> attribute is deprecated. Preferred way to specify navigation title is navtitle element.
       </report>
