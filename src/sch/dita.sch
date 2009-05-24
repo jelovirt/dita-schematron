@@ -17,10 +17,6 @@
     You should have received a copy of the GNU Lesser General Public License
     along with this program.  If not, see &lt;http://www.gnu.org/licenses/>.
   </p>
-
-  <p>
-    Version 2.1.0. released 2009-05-08.
-  </p>
   
   <ns uri="http://dita.oasis-open.org/architecture/2005/" prefix="ditaarch"/>
 

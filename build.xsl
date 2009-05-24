@@ -7,6 +7,12 @@
       exclude-result-prefixes="xs e sch"
       version="2.0">
 
+  <xsl:param name="release.version"/>
+
+  <xsl:strip-space elements="*"/>
+
+  <xsl:output indent="yes"/>
+
   <xsl:key name="pattern" match="sch:pattern[@id]" use="@id"/>
   
   <xsl:function name="e:matches" as="xs:boolean">
@@ -54,6 +60,13 @@
         <xsl:text>Schematron schema for DITA </xsl:text>
         <xsl:value-of select="format-number($version, '#.0')"/>
       </title>
+      <p>
+        <xsl:text>Version </xsl:text>
+        <xsl:value-of select="$release.version"/>
+        <xsl:text>. released </xsl:text>
+        <xsl:value-of select="format-date(current-date(), '[Y]-[M01]-[D01]')"/>
+        <xsl:text>.</xsl:text>
+      </p>
       <xsl:apply-templates select="node()"/>
     </xsl:copy>
   </xsl:template>
