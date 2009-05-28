@@ -215,7 +215,7 @@
   <pattern id="navtitle" e:ditaVersions="1.2">
     <rule context="*[contains(@class, ' map/topicref ')]"><!--*[@ditaarch:DITAArchVersion >= 1.2]//-->
       <report test="@navtitle">
-        The <value-of select="$attribute"/> attribute is deprecated. Preferred way to specify navigation title is navtitle element.
+        The navtitle attribute is deprecated. Preferred way to specify navigation title is navtitle element.
       </report>
     </rule>    
   </pattern>  
