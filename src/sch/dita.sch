@@ -58,6 +58,7 @@
     <active pattern="required-cleanup"/>
     <!--active pattern="spec_attrs"/-->
     <active pattern="no_topic_nesting"/>
+    <active pattern="tm-character"/>
   </phase>
 
   <!-- Abstract patterns -->
@@ -215,7 +216,7 @@
   <pattern id="navtitle" e:ditaVersions="1.2">
     <rule context="*[contains(@class, ' map/topicref ')]"><!--*[@ditaarch:DITAArchVersion >= 1.2]//-->
       <report test="@navtitle">
-        The <value-of select="$attribute"/> attribute is deprecated. Preferred way to specify navigation title is navtitle element.
+        The navtitle attribute is deprecated. Preferred way to specify navigation title is navtitle element.
       </report>
     </rule>    
   </pattern>  
@@ -287,6 +288,20 @@
       <report test="." role="warn">
         <name/> element is not intended for direct use by authors, and has no associated output
         processing. </report>
+    </rule>
+  </pattern>
+  
+  <pattern id="tm-character" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/tm.html">
+    <rule context="text()">
+      <report test="contains(., '™')" role="warn">
+        It's preferable to use tm element instead of ™ character.
+      </report>
+      <report test="contains(., '℠')" role="warn">
+        It's preferable to use tm element instead of ℠ character.
+      </report>
+      <report test="contains(., '®')" role="warn">
+        It's preferable to use tm element instead of ® character.
+      </report>
     </rule>
   </pattern>
 
