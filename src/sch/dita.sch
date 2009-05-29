@@ -50,6 +50,7 @@
     <active pattern="sub_in_pre"/>
     
     <active pattern="navtitle"/>
+    <active pattern="map_title_attribute"/>
   </phase>
 
   <phase id="authoringRecommendations">
@@ -58,7 +59,7 @@
     <active pattern="required-cleanup"/>
     <!--active pattern="spec_attrs"/-->
     <active pattern="no_topic_nesting"/>
-    <active pattern="tm-character"/>
+    <active pattern="tm_character"/>
   </phase>
 
   <!-- Abstract patterns -->
@@ -219,7 +220,15 @@
         The navtitle attribute is deprecated. Preferred way to specify navigation title is navtitle element.
       </report>
     </rule>    
-  </pattern>  
+  </pattern>
+  
+  <pattern id="map_title_attribute"  e:ditaVersions="1.1 1.2">
+    <rule context="*[contains(@class, ' map/map ')]">
+      <report test="@title">
+        Map can include a title element, which is preferred over the title attribute
+      </report>
+    </rule>
+  </pattern>
   
   <!-- Recommended per convention -->
 
@@ -291,7 +300,7 @@
     </rule>
   </pattern>
   
-  <pattern id="tm-character" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/tm.html">
+  <pattern id="tm_character" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/tm.html">
     <rule context="text()">
       <report test="contains(., '™')" role="warn">
         It's preferable to use tm element instead of ™ character.
