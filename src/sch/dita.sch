@@ -127,14 +127,14 @@
   <pattern id="otherrole" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
     <rule context="*[@role = 'other']">
       <assert test="@otherrole">
-        <name/> with role 'other' should have attribute 'otherrole' set. </assert>
+        <name/> with role 'other' should have otherrole attribute set. </assert>
     </rule>
   </pattern>
 
   <pattern id="othernote" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/thetypeattribute.html">
     <rule context="*[contains(@class,' topic/note ')][@type = 'other']">
       <assert test="@othertype">
-        <name/> with type 'other' should have attribute 'othertype' set. </assert>
+        <name/> with type 'other' should have othertype attribute set. </assert>
     </rule>
   </pattern>
 
