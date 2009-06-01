@@ -2,8 +2,13 @@
 <project>
   
   <target name="-init">
+    <tstamp>
+      <format property="DATE_STAMP" pattern="yyyyMMddhhmmssSSS"/>
+    </tstamp>
     <property name="sch.dir" location="${basedir}/src/sch"/>
     <property name="dist.dir" location="${basedir}/dist"/>
+    <property name="tmp.dir" location="${basedir}/work"/>
+    <property name="work.dir" location="${tmp.dir}/${DATE_STAMP}"/>
   </target>
   
   <target name="dist" depends="-init">
@@ -18,6 +23,11 @@
         <include name="dita-*.sch"/>
       </fileset>
     </zip>
+  </target>
+  
+  <target name="clean" depends="-init">
+    <delete dir="${tmp.dir}"/>
+    <delete dir="${dist.dir}"/>
   </target>
   
 </project>
