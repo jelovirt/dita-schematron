@@ -78,8 +78,8 @@
   <pattern abstract="true" id="nested_element">
     <rule context="$element">
       <report test="descendant::$descendant">
-        The <name/> contains <name path="descendant::$descendant"/>.
-        Using <name path="descendant::$descendant"/> in this context is ill-adviced.
+        The <name/> contains <value-of select="name(descendant::$descendant)"/>.
+        Using <value-of select="name(descendant::$descendant)"/> in this context is ill-adviced.
       </report>
     </rule>
   </pattern>
