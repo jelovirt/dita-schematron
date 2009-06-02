@@ -11,12 +11,15 @@
     <property name="work.dir" location="${tmp.dir}/${DATE_STAMP}"/>
   </target>
   
-  <target name="dist" depends="-init">
-    <fail unless="release.version">Property 'release.version' not set</fail>
+  <target name="compile" depends="-init">
     <xslt style="build.xsl" in="${sch.dir}/dita.sch" out="${sch.dir}/out.xml">
       <param name="release.version" expression="${release.version}"/>
     </xslt>
     <delete file="${sch.dir}/out.xml"/>
+  </target>
+  
+  <target name="dist" depends="-init, compile">
+    <fail unless="release.version">Property 'release.version' not set</fail>
     <mkdir dir="${dist.dir}"/>
     <zip file="${dist.dir}/dita-schematron_${release.version}.zip">
       <fileset dir="${sch.dir}">
