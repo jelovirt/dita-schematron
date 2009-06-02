@@ -46,6 +46,7 @@
     <active pattern="image_alt_attr"/>
     <active pattern="query_attr"/>
     <active pattern="single_paragraph"/>
+    <active pattern="shortdesc_length"/>
     <active pattern="image_in_pre"/>
     <active pattern="object_in_pre"/>
     <active pattern="sup_in_pre"/>
@@ -212,6 +213,16 @@
                     *[contains(@class, ' topic/body ')]/*[contains(@class, ' topic/p ')]">
         In cases where a topic contains only one paragraph, then it is preferable to include this
         text in the shortdesc element and leave the topic body empty.
+      </report>
+    </rule>
+  </pattern>
+  
+  <pattern id="shortdesc_length" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html">
+    <rule context="*[contains(@class, ' topic/shortdesc ')]">
+      <let name="text" value="normalize-space(.)"/>
+      <!-- This is a rudimentary guess that could be improved --> 
+      <report test="string-length($text) - string-length(translate($text, ' ', '')) > 50">
+        The short description should be a single, concise paragraph containing one or two sentences of no more than 50 words.
       </report>
     </rule>
   </pattern>
