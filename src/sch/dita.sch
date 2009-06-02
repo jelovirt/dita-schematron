@@ -110,16 +110,16 @@
 
   <pattern abstract="true" id="deprecated_attribute">
     <rule context="$context">
-      <report test="@*[name() = $attribute]">
-        The <value-of select="$attribute"/> attribute is deprecated. <value-of select="$reason"/>
+      <report test="$attribute">
+        The <value-of select="name($attribute)"/> attribute is deprecated. <value-of select="$reason"/>
       </report>
     </rule>
   </pattern>
 
   <pattern abstract="true" id="deprecated_attribute_value">
     <rule context="$context">
-      <report test="@*[name() = $attribute and . = $value]">
-        The value "<value-of select="$value"/>" for <value-of select="$attribute"/> attribute is deprecated. <value-of select="$reason"/>
+      <report test="$attribute[. = $value]">
+        The value "<value-of select="$value"/>" for <value-of select="name($attribute)"/> attribute is deprecated. <value-of select="$reason"/>
       </report>
     </rule>
   </pattern>
@@ -174,14 +174,14 @@
 
   <pattern is-a="deprecated_attribute" id="image_alt_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html">
     <param name="context" value="*[contains(@class, ' topic/image ')]"/>
-    <param name="attribute" value="'alt'"/>
+    <param name="attribute" value="@alt"/>
     <param name="reason" value="'The alt element should be used instead.'"/>
   </pattern>
 
   <pattern is-a="deprecated_attribute" id="query_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html">
     <param name="context" value="*[contains(@class, ' topic/link ')] |
                                  *[contains(@class, ' map/topicref ')]"/><!--*[@ditaarch:DITAArchVersion >= 1.1]//-->
-    <param name="attribute" value="'query'"/>
+    <param name="attribute" value="@query"/>
     <param name="reason" value="'It may be removed in the future.'"/>
   </pattern>
 
@@ -190,7 +190,7 @@
                                  *[contains(@class, ' topic/link ')] |
                                  *[contains(@class, ' topic/linklist ')] |
                                  *[contains(@class, ' topic/linkpool ')]"/>
-    <param name="attribute" value="'role'"/>
+    <param name="attribute" value="@role"/>
     <param name="value" value="'sample'"/>
     <param name="reason" value="''"/>
   </pattern>
@@ -200,7 +200,7 @@
                                  *[contains(@class, ' topic/link ')] |
                                  *[contains(@class, ' topic/linklist ')] |
                                  *[contains(@class, ' topic/linkpool ')]"/>
-    <param name="attribute" value="'role'"/>
+    <param name="attribute" value="@role"/>
     <param name="value" value="'external'"/>
     <param name="reason" value="'Use the scope=&quot;external&quot; attribute to indicate external links.'"/>
   </pattern>
