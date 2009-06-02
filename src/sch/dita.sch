@@ -58,7 +58,7 @@
 
   <phase id="authoringRecommendations">
     <active pattern="xref_in_title"/>
-    <active pattern="idless_title"/>
+    <!--active pattern="idless_title"/-->
     <active pattern="required-cleanup"/>
     <!--active pattern="spec_attrs"/-->
     <active pattern="no_topic_nesting"/>
@@ -94,8 +94,8 @@
 
   <pattern abstract="true" id="future_use_attribute">
     <rule context="$context">
-      <report test="@*[name() = $attribute]">
-        The <value-of select="$attribute"/> attribute on <name/> is reserved for future use. <value-of select="$reason"/>
+      <report test="$attribute">
+        The <value-of select="name($attribute)"/> attribute on <name/> is reserved for future use. <value-of select="$reason"/>
       </report>
     </rule>
   </pattern>
@@ -150,7 +150,7 @@
   <pattern is-a="future_use_attribute" id="collection-type_on_rel" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html">
     <param name="context" value="*[contains(@class, ' map/reltable ')]
                                | *[contains(@class, ' map/relcolspec ')]"/>
-    <param name="attribute" value="'collection-type'"/>
+    <param name="attribute" value="@collection-type"/>
     <param name="reason" value="''"/>
   </pattern>
   
