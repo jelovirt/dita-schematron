@@ -51,7 +51,6 @@
     <active pattern="object_in_pre"/>
     <active pattern="sup_in_pre"/>
     <active pattern="sub_in_pre"/>
-    
     <active pattern="navtitle"/>
     <active pattern="map_title_attribute"/>
   </phase>
@@ -141,17 +140,21 @@
     </rule>
   </pattern>
 
-  <pattern is-a="future_use_element" id="indextermref" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html">
-    <param name="context" value="*"/>
-    <param name="element" value="*[contains(@class, ' topic/indextermref ')]"/>
-    <param name="reason" value="''"/>
+  <pattern id="indextermref" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html">
+    <rule context="*">
+      <report test="*[contains(@class, ' topic/indextermref ')]">
+        The <value-of select="name(*[contains(@class, ' topic/indextermref ')])"/> element is reserved for future use. 
+      </report>
+    </rule>
   </pattern>
 
-  <pattern is-a="future_use_attribute" id="collection-type_on_rel" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html">
-    <param name="context" value="*[contains(@class, ' map/reltable ')]
-                               | *[contains(@class, ' map/relcolspec ')]"/>
-    <param name="attribute" value="@collection-type"/>
-    <param name="reason" value="''"/>
+  <pattern id="collection-type_on_rel" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html">
+    <rule context="*[contains(@class, ' map/reltable ')] 
+                 | *[contains(@class, ' map/relcolspec ')]">
+      <report test="@collection-type">
+        The collection-type attribute on <name/> is reserved for future use. 
+      </report>
+    </rule>
   </pattern>
   
   <pattern id="keyref_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html"
@@ -165,44 +168,51 @@
   
   <!-- Recommended per spec -->
 
-  <pattern is-a="deprecated_element" id="boolean" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html">
-    <param name="context" value="*"/>
-    <param name="element" value="*[contains(@class, ' topic/boolean ')]"/>
-    <param name="reason" value="'The state element should be used instead with value attribute of &quot;yes&quot; or &quot;no&quot;.'"
-    />
+  <pattern id="boolean" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html">
+    <rule context="*">
+      <report test="*[contains(@class, ' topic/boolean ')]" diagnostics="state_element">
+        The <value-of select="name(*[contains(@class, ' topic/boolean ')])"/> element is deprecated.
+      </report>
+    </rule>
+  </pattern>  
+
+  <pattern id="image_alt_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html">
+    <rule context="*[contains(@class, ' topic/image ')]">
+      <report test="@alt" diagnostics="alt_element">
+        The alt attribute is deprecated.
+      </report>
+    </rule>
   </pattern>
 
-  <pattern is-a="deprecated_attribute" id="image_alt_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html">
-    <param name="context" value="*[contains(@class, ' topic/image ')]"/>
-    <param name="attribute" value="@alt"/>
-    <param name="reason" value="'The alt element should be used instead.'"/>
+  <pattern id="query_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html">
+    <rule context="*[contains(@class, ' topic/link ')]
+                 | *[contains(@class, ' map/topicref ')]">
+      <report test="@query">
+        The query attribute is deprecated. It may be removed in the future.
+      </report>
+    </rule>
+  </pattern>
+  
+  <pattern id="role_attr_sample" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
+    <rule context="*[contains(@class, ' topic/related-links ')]
+                 | *[contains(@class, ' topic/link ')]
+                 | *[contains(@class, ' topic/linklist ')]
+                 | *[contains(@class, ' topic/linkpool ')]">
+      <report test="@role[. = 'sample']">
+        The value "sample" for role attribute is deprecated. 
+      </report>
+    </rule>
   </pattern>
 
-  <pattern is-a="deprecated_attribute" id="query_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html">
-    <param name="context" value="*[contains(@class, ' topic/link ')] |
-                                 *[contains(@class, ' map/topicref ')]"/><!--*[@ditaarch:DITAArchVersion >= 1.1]//-->
-    <param name="attribute" value="@query"/>
-    <param name="reason" value="'It may be removed in the future.'"/>
-  </pattern>
-
-  <pattern is-a="deprecated_attribute_value" id="role_attr_sample" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
-    <param name="context" value="*[contains(@class, ' topic/related-links ')] |
-                                 *[contains(@class, ' topic/link ')] |
-                                 *[contains(@class, ' topic/linklist ')] |
-                                 *[contains(@class, ' topic/linkpool ')]"/>
-    <param name="attribute" value="@role"/>
-    <param name="value" value="'sample'"/>
-    <param name="reason" value="''"/>
-  </pattern>
-
-  <pattern is-a="deprecated_attribute_value" id="role_attr_external" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
-    <param name="context" value="*[contains(@class, ' topic/related-links ')] |
-                                 *[contains(@class, ' topic/link ')] |
-                                 *[contains(@class, ' topic/linklist ')] |
-                                 *[contains(@class, ' topic/linkpool ')]"/>
-    <param name="attribute" value="@role"/>
-    <param name="value" value="'external'"/>
-    <param name="reason" value="'Use the scope=&quot;external&quot; attribute to indicate external links.'"/>
+  <pattern id="role_attr_external" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
+    <rule context="*[contains(@class, ' topic/related-links ')]
+                 | *[contains(@class, ' topic/link ')]
+                 | *[contains(@class, ' topic/linklist ')]
+                 | *[contains(@class, ' topic/linkpool ')]">
+      <report test="@role[. = 'external']" diagnostics="external_scope_attribute">
+        The value "external" for role attribute is deprecated.
+      </report>
+    </rule>
   </pattern>
 
   <pattern id="single_paragraph" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html">
@@ -221,21 +231,21 @@
     <rule context="*[contains(@class, ' topic/shortdesc ')]">
       <let name="text" value="normalize-space(.)"/>
       <!-- This is a rudimentary guess that could be improved --> 
-      <report test="string-length($text) - string-length(translate($text, ' ', '')) > 50">
+      <report test="string-length($text) - string-length(translate($text, ' ', '')) >= 50">
         The short description should be a single, concise paragraph containing one or two sentences of no more than 50 words.
       </report>
     </rule>
   </pattern>
   
   <pattern id="navtitle" e:ditaVersions="1.2">
-    <rule context="*[contains(@class, ' map/topicref ')]"><!--*[@ditaarch:DITAArchVersion >= 1.2]//-->
-      <report test="@navtitle">
-        The navtitle attribute is deprecated. Preferred way to specify navigation title is navtitle element.
+    <rule context="*[contains(@class, ' map/topicref ')]">
+      <report test="@navtitle" diagnostics="navtitle_element">
+        The navtitle attribute is deprecated.
       </report>
     </rule>    
   </pattern>
   
-  <pattern id="map_title_attribute"  e:ditaVersions="1.1 1.2">
+  <pattern id="map_title_attribute" e:ditaVersions="1.1 1.2">
     <rule context="*[contains(@class, ' map/map ')]">
       <report test="@title">
         Map can include a title element, which is preferred over the title attribute
@@ -254,6 +264,7 @@
     <param name="descendant" value="*[contains(@class, ' topic/image ')]"/>
   </pattern>
 
+  <!-- XXX: Can this actually ever happen? -->
   <pattern is-a="nested_element" id="object_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
     <param name="descendant" value="*[contains(@class, ' topic/object ')]"/>
@@ -261,12 +272,12 @@
 
   <pattern is-a="nested_element" id="sup_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
-    <param name="descendant" value="*[contains(@class, ' hi-d/sup  ')]"/>
+    <param name="descendant" value="*[contains(@class, ' hi-d/sup ')]"/>
   </pattern>
 
   <pattern is-a="nested_element" id="sub_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
-    <param name="descendant" value="*[contains(@class, ' hi-d/sub  ')]"/>
+    <param name="descendant" value="*[contains(@class, ' hi-d/sub ')]"/>
   </pattern>  
 
   <!-- Authoring -->
@@ -328,6 +339,18 @@
   </pattern>
 
   <diagnostics>
+    <diagnostic id="external_scope_attribute">
+      Use the scope="external" attribute to indicate external links.
+    </diagnostic>
+    <diagnostic id="navtitle_element">
+      Preferred way to specify navigation title is navtitle element.
+    </diagnostic>
+    <diagnostic id="state_element">
+      The state element should be used instead with value attribute of &quot;yes&quot; or &quot;no&quot;.
+    </diagnostic>
+    <diagnostic id="alt_element">
+      The alt element should be used instead.
+    </diagnostic>
     <diagnostic id="link_target">
       Elements with titles are candidate targets for elements level links.
     </diagnostic>
