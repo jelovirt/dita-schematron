@@ -23,7 +23,7 @@
     <title></title>
     <body>
       <image href=""
-             keyref=""/>
+             keyref=""><alt></alt></image>
     </body>
   </topic>
   <topic id="boolean">
@@ -86,7 +86,7 @@
     <body>
       <pre>
         <uicontrol>
-          <image href=""/>
+          <image href=""><alt></alt></image>
         </uicontrol>
       </pre>
     </body>
@@ -142,4 +142,12 @@
       <p>®</p>
     </body>
   </topic>
+  <topic id="no_alt_desc">
+    <title></title>
+    <body>
+      <image href=""/>
+      <object></object>
+    </body>
+  </topic>
+  
 </topic>

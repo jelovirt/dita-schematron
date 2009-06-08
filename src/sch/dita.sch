@@ -63,6 +63,10 @@
     <active pattern="no_topic_nesting"/>
     <active pattern="tm_character"/>
   </phase>
+  
+  <phase id="wai">
+    <active pattern="no_alt_desc"/>
+  </phase>
 
   <!-- Abstract patterns -->
 
@@ -128,21 +132,21 @@
 
   <pattern id="otherrole" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
     <rule context="*[@role = 'other']">
-      <assert test="@otherrole">
+      <assert test="@otherrole" role="error">
         <name/> with role 'other' should have otherrole attribute set. </assert>
     </rule>
   </pattern>
 
   <pattern id="othernote" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/thetypeattribute.html">
     <rule context="*[contains(@class,' topic/note ')][@type = 'other']">
-      <assert test="@othertype">
+      <assert test="@othertype" role="error">
         <name/> with type 'other' should have othertype attribute set. </assert>
     </rule>
   </pattern>
 
   <pattern id="indextermref" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html">
     <rule context="*">
-      <report test="*[contains(@class, ' topic/indextermref ')]">
+      <report test="*[contains(@class, ' topic/indextermref ')]" role="error">
         The <value-of select="name(*[contains(@class, ' topic/indextermref ')])"/> element is reserved for future use. 
       </report>
     </rule>
@@ -151,7 +155,7 @@
   <pattern id="collection-type_on_rel" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html">
     <rule context="*[contains(@class, ' map/reltable ')] 
                  | *[contains(@class, ' map/relcolspec ')]">
-      <report test="@collection-type">
+      <report test="@collection-type" role="error">
         The collection-type attribute on <name/> is reserved for future use. 
       </report>
     </rule>
@@ -160,7 +164,7 @@
   <pattern id="keyref_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html"
            e:ditaVersions="1.0 1.1">
     <rule context="*"><!--[ancestor-or-self::*/@ditaarch:DITAArchVersion &lt;= 1.1]-->
-      <report test="@keyref">
+      <report test="@keyref" role="error">
         The keyref attribute on <name/> is reserved for future use.
       </report>
     </rule>
@@ -170,7 +174,7 @@
 
   <pattern id="boolean" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html">
     <rule context="*">
-      <report test="*[contains(@class, ' topic/boolean ')]" diagnostics="state_element">
+      <report test="*[contains(@class, ' topic/boolean ')]" diagnostics="state_element" role="warning">
         The <value-of select="name(*[contains(@class, ' topic/boolean ')])"/> element is deprecated.
       </report>
     </rule>
@@ -178,7 +182,7 @@
 
   <pattern id="image_alt_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html">
     <rule context="*[contains(@class, ' topic/image ')]">
-      <report test="@alt" diagnostics="alt_element">
+      <report test="@alt" diagnostics="alt_element" role="warning">
         The alt attribute is deprecated.
       </report>
     </rule>
@@ -187,7 +191,7 @@
   <pattern id="query_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html">
     <rule context="*[contains(@class, ' topic/link ')]
                  | *[contains(@class, ' map/topicref ')]">
-      <report test="@query">
+      <report test="@query" role="warning">
         The query attribute is deprecated. It may be removed in the future.
       </report>
     </rule>
@@ -198,7 +202,7 @@
                  | *[contains(@class, ' topic/link ')]
                  | *[contains(@class, ' topic/linklist ')]
                  | *[contains(@class, ' topic/linkpool ')]">
-      <report test="@role[. = 'sample']">
+      <report test="@role[. = 'sample']" role="warning">
         The value "sample" for role attribute is deprecated. 
       </report>
     </rule>
@@ -209,7 +213,7 @@
                  | *[contains(@class, ' topic/link ')]
                  | *[contains(@class, ' topic/linklist ')]
                  | *[contains(@class, ' topic/linkpool ')]">
-      <report test="@role[. = 'external']" diagnostics="external_scope_attribute">
+      <report test="@role[. = 'external']" diagnostics="external_scope_attribute" role="warning">
         The value "external" for role attribute is deprecated.
       </report>
     </rule>
@@ -220,7 +224,7 @@
           subject="*[contains(@class, ' topic/body ')]/*[contains(@class, ' topic/p ')]">
       <report test="not(*[contains(@class, ' topic/shortdesc ')] | *[contains(@class, ' topic/abstract ')]) and
                     count(*[contains(@class, ' topic/body ')]/*) = 1 and
-                    *[contains(@class, ' topic/body ')]/*[contains(@class, ' topic/p ')]">
+                    *[contains(@class, ' topic/body ')]/*[contains(@class, ' topic/p ')]" role="warning">
         In cases where a topic contains only one paragraph, then it is preferable to include this
         text in the shortdesc element and leave the topic body empty.
       </report>
@@ -231,7 +235,7 @@
     <rule context="*[contains(@class, ' topic/shortdesc ')]">
       <let name="text" value="normalize-space(.)"/>
       <!-- This is a rudimentary guess that could be improved --> 
-      <report test="string-length($text) - string-length(translate($text, ' ', '')) >= 50">
+      <report test="string-length($text) - string-length(translate($text, ' ', '')) >= 50" role="warning">
         The short description should be a single, concise paragraph containing one or two sentences of no more than 50 words.
       </report>
     </rule>
@@ -239,7 +243,7 @@
   
   <pattern id="navtitle" e:ditaVersions="1.2">
     <rule context="*[contains(@class, ' map/topicref ')]">
-      <report test="@navtitle" diagnostics="navtitle_element">
+      <report test="@navtitle" diagnostics="navtitle_element" role="warning">
         The navtitle attribute is deprecated.
       </report>
     </rule>    
@@ -247,7 +251,7 @@
   
   <pattern id="map_title_attribute" e:ditaVersions="1.1 1.2">
     <rule context="*[contains(@class, ' map/map ')]">
-      <report test="@title">
+      <report test="@title" role="warning">
         Map can include a title element, which is preferred over the title attribute
       </report>
     </rule>
@@ -284,7 +288,7 @@
 
   <pattern id="xref_in_title">
     <rule context="*[contains(@class, ' topic/title ')]">
-      <report test="descendant::*[contains(@class, ' topic/xref ')]" diagnostics="title_links">
+      <report test="descendant::*[contains(@class, ' topic/xref ')]" diagnostics="title_links" role="warning">
         The <name/> contains <name path="descendant::*[contains(@class, ' topic/xref ')]"/>.
       </report>
     </rule>
@@ -292,7 +296,7 @@
 
   <pattern id="idless_title">
     <rule context="*[not(@id)]">
-      <report test="*[contains(@class, ' topic/title ')]" role="info" diagnostics="link_target">
+      <report test="*[contains(@class, ' topic/title ')]" diagnostics="link_target" role="warning">
         <name/> with a title should have an id attribute.
       </report>
     </rule>
@@ -300,7 +304,7 @@
 
   <pattern id="required-cleanup">
     <rule context="*">
-      <report test="*[contains(@class, ' topic/required-cleanup ')]" role="warn">
+      <report test="*[contains(@class, ' topic/required-cleanup ')]" role="warning">
         A required-cleanup element is used as a placeholder for migrated elements and should not be used in documents by authors.
       </report>
     </rule>
@@ -318,7 +322,7 @@
 
   <pattern id="no_topic_nesting">
     <rule context="no-topic-nesting">
-      <report test="." role="warn">
+      <report test="." role="warning">
         <name/> element is not intended for direct use by authors, and has no associated output
         processing. </report>
     </rule>
@@ -326,17 +330,34 @@
   
   <pattern id="tm_character" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/tm.html">
     <rule context="text()">
-      <report test="contains(., '™')" role="warn">
+      <report test="contains(., '™')" role="warning">
         It's preferable to use tm element instead of ™ character.
       </report>
-      <report test="contains(., '℠')" role="warn">
+      <report test="contains(., '℠')" role="warning">
         It's preferable to use tm element instead of ℠ character.
       </report>
-      <report test="contains(., '®')" role="warn">
+      <report test="contains(., '®')" role="warning">
         It's preferable to use tm element instead of ® character.
       </report>
     </rule>
   </pattern>
+  
+  <!-- WAI -->
+  
+  <pattern id="no_alt_desc" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html">
+    <rule context="*[contains(@class, ' topic/image ')]">
+      <assert test="@alt | alt" flag="non-WAI" role="warning">
+        Alternative description should be provided for users using screen readers or text-only readers.
+      </assert>
+    </rule>
+    <rule context="*[contains(@class, ' topic/object ')]">
+      <assert test="desc" flag="non-WAI" role="warning">
+        Alternative description should be provided for users using screen readers or text-only readers.
+      </assert>
+    </rule>
+  </pattern>
+
+  <!-- Diagnostics -->
 
   <diagnostics>
     <diagnostic id="external_scope_attribute">
