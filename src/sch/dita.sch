@@ -39,8 +39,7 @@
     <active pattern="collection-type_on_rel"/>
     <active pattern="keyref_attr"/>
     
-    <active pattern="role_attr_sample"/>
-    <active pattern="role_attr_external"/>
+    <active pattern="role_attr_value"/>
     <active pattern="self_nested_xref"/>
     <active pattern="boolean"/>
     <active pattern="image_alt_attr"/>
@@ -197,7 +196,7 @@
     </rule>
   </pattern>
   
-  <pattern id="role_attr_sample" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
+  <pattern id="role_attr_value" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
     <rule context="*[contains(@class, ' topic/related-links ')]
                  | *[contains(@class, ' topic/link ')]
                  | *[contains(@class, ' topic/linklist ')]
@@ -205,14 +204,6 @@
       <report test="@role[. = 'sample']" role="warning">
         The value "sample" for role attribute is deprecated. 
       </report>
-    </rule>
-  </pattern>
-
-  <pattern id="role_attr_external" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
-    <rule context="*[contains(@class, ' topic/related-links ')]
-                 | *[contains(@class, ' topic/link ')]
-                 | *[contains(@class, ' topic/linklist ')]
-                 | *[contains(@class, ' topic/linkpool ')]">
       <report test="@role[. = 'external']" diagnostics="external_scope_attribute" role="warning">
         The value "external" for role attribute is deprecated.
       </report>
