@@ -4,30 +4,38 @@
 <topic id="test">
   <title>Topic title</title>
   <topic id="otherrole">
-    <title></title>
-    <related-links role="other"/>
+    <title/>
+    <related-links role="other">
+      <link/>
+    </related-links>
   </topic>
   <topic id="othernote">
-    <title></title>
+    <title/>
     <body>
-      <note type="other">Note</note>
+      <note type="other">
+        Note
+      </note>
     </body>
   </topic>
   <topic id="indextermref">
-    <title></title>
+    <title/>
     <body>
-      <p><indextermref/></p>
+      <p>
+        <indextermref keyref="foo"/>
+      </p>
     </body>
   </topic>
   <topic id="keyref_attr">
-    <title></title>
+    <title/>
     <body>
       <image href=""
-             keyref=""><alt></alt></image>
+             keyref="foo">
+        <alt/>
+      </image>
     </body>
   </topic>
   <topic id="boolean">
-    <title></title>
+    <title/>
     <body>
       <p>
         <boolean state="no"/>
@@ -35,70 +43,81 @@
     </body>
   </topic>
   <topic id="image_alt_attr">
-    <title></title>
+    <title/>
     <body>
       <image href=""
              alt=""/>
     </body>
   </topic>
   <topic id="query_attr">
-    <title></title>
+    <title/>
     <related-links>
       <link query=""/>
     </related-links>
   </topic>
-  <topic id="role_attr_sample">
-    <title></title>
-    <related-links role="sample">
-      <link role="sample"/>
-      <linklist role="sample"/>
-      <linkpool role="sample"/>
-    </related-links>
-  </topic>
-  <topic id="role_attr_external">
-    <title></title>
-    <related-links role="external">
-      <link role="external"/>
-      <linklist role="external"/>
-      <linkpool role="external"/>
-    </related-links>
+  <topic id="role_attr_value">
+    <title/>
+    <topic id="sample">
+      <title/>
+      <related-links role="sample">
+        <link role="sample"/>
+        <linklist role="sample"/>
+        <linkpool role="sample"/>
+      </related-links>
+    </topic>
+    <topic id="external">
+      <title/>
+      <related-links role="external">
+        <link role="external"/>
+        <linklist role="external"/>
+        <linkpool role="external"/>
+      </related-links>
+    </topic>
   </topic>
   <topic id="single_paragraph">
-    <title></title>
+    <title/>
     <body>
       <p>Paragraph</p>
     </body>
   </topic>
   <topic id="shortdesc_length">
-    <title></title>
-    <shortdesc>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51</shortdesc>
-  </topic>
-  <topic id="self_nested_xref">
-    <title></title>
+    <title/>
     <shortdesc>
-      <xref>
-        <xref/>
-      </xref>
+      1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51
     </shortdesc>
   </topic>
+  <topic id="self_nested_xref">
+    <title/>
+    <body>
+      <p>
+        <xref>
+          <ph>
+            <xref/>
+          </ph>
+        </xref>
+      </p>
+    </body>
+  </topic>
   <topic id="image_in_pre">
-    <title></title>
+    <title/>
     <body>
       <pre>
         <uicontrol>
-          <image href=""><alt></alt></image>
+          <image href="">
+            <alt/>
+          </image>
         </uicontrol>
       </pre>
     </body>
   </topic>
   <topic id="object_in_pre">
-    <title></title>
+    <title/>
     <body>
       <pre/>
     </body>
   </topic>
   <topic id="sup_in_pre">
-    <title></title>
+    <title/>
     <body>
       <pre>
         <sup/>
@@ -106,7 +125,7 @@
     </body>
   </topic>
   <topic id="sub_in_pre">
-    <title></title>
+    <title/>
     <body>
       <pre>
         <sub/>
@@ -121,7 +140,7 @@
     </title>
   </topic>
   <topic id="idless_title">
-    <title></title>
+    <title/>
     <body>
       <section>
         <title/>
@@ -129,25 +148,30 @@
     </body>
   </topic>
   <topic id="required-cleanup">
-    <title></title>
+    <title/>
     <body>
       <required-cleanup/>
     </body>
   </topic>
   <topic id="tm_character">
-    <title></title>
+    <title/>
     <body>
-      <p>™</p>
-      <p>℠</p>
-      <p>®</p>
+      <p>
+        ™
+      </p>
+      <p>
+        ℠
+      </p>
+      <p>
+        ®
+      </p>
     </body>
   </topic>
   <topic id="no_alt_desc">
-    <title></title>
+    <title/>
     <body>
       <image href=""/>
-      <object></object>
+      <object/>
     </body>
   </topic>
-  
 </topic>
