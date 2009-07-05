@@ -19,6 +19,7 @@
   </topic>
   <topic id="indextermref">
     <title/>
+    <shortdesc/>
     <body>
       <p>
         <indextermref keyref="foo"/>
@@ -36,6 +37,7 @@
   </topic>
   <topic id="boolean">
     <title/>
+    <shortdesc/>
     <body>
       <p>
         <boolean state="no"/>
@@ -88,6 +90,7 @@
   </topic>
   <topic id="self_nested_xref">
     <title/>
+    <shortdesc/>
     <body>
       <p>
         <xref>
@@ -98,7 +101,7 @@
       </p>
     </body>
   </topic>
-  <topic id="image_in_pre">
+  <topic id="">
     <title/>
     <body>
       <pre>
@@ -108,30 +111,14 @@
           </image>
         </uicontrol>
       </pre>
-    </body>
-  </topic>
-  <topic id="object_in_pre">
-    <title/>
-    <body>
-      <pre/>
-    </body>
-  </topic>
-  <topic id="sup_in_pre">
-    <title/>
-    <body>
       <pre>
         <sup/>
       </pre>
-    </body>
-  </topic>
-  <topic id="sub_in_pre">
-    <title/>
-    <body>
       <pre>
         <sub/>
       </pre>
     </body>
-  </topic>  
+  </topic>
   <topic id="xref_in_title">
     <title>
       <b>
