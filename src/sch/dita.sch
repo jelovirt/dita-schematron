@@ -3,22 +3,19 @@
         xmlns:e="http://dita-schematron.github.com/"
         defaultPhase="specificationMandates">
 
-  <p>
-    Copyright © 2009 Jarno Elovirta
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with this program.  If not, see &lt;http://www.gnu.org/licenses/>.
-  </p>
+  <p>Copyright 2009 Jarno Elovirta &lt;http://www.elovirta.com/></p>
+  
+  <p>Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at</p>
+  
+  <p>http://www.apache.org/licenses/LICENSE-2.0</p>
+  
+  <p>Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.</p>
   
   <ns uri="http://dita.oasis-open.org/architecture/2005/" prefix="ditaarch"/>
 
@@ -40,20 +37,18 @@
     <active pattern="keyref_attr"/>
     
     <active pattern="role_attr_value"/>
-    <active pattern="self_nested_xref"/>
     <active pattern="boolean"/>
     <active pattern="image_alt_attr"/>
     <active pattern="query_attr"/>
     <active pattern="single_paragraph"/>
     <active pattern="shortdesc_length"/>
-    <active pattern="image_in_pre"/>
-    <active pattern="object_in_pre"/>
-    <active pattern="sup_in_pre"/>
-    <active pattern="sub_in_pre"/>
     <active pattern="navtitle"/>
     <active pattern="map_title_attribute"/>
+    
+    <active pattern="self_nested_xref"/>
+    <active pattern="pre_content"/>  
   </phase>
-
+  
   <phase id="authoringRecommendations">
     <active pattern="xref_in_title"/>
     <!--active pattern="idless_title"/-->
@@ -253,27 +248,28 @@
   <pattern is-a="self_nested_element" id="self_nested_xref" see="http://www.w3.org/TR/html/#prohibitions">
     <param name="element" value="*[contains(@class, ' topic/xref ')]"/>
   </pattern>
-
-  <pattern is-a="nested_element" id="image_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
-    <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
-    <param name="descendant" value="*[contains(@class, ' topic/image ')]"/>
+  
+  <pattern id="pre_content" see="http://www.w3.org/TR/html/#prohibitions">
+    <rule context="*[contains(@class, ' topic/pre ')]">
+      <report test="descendant::*[contains(@class, ' topic/image ')]" role="warning">
+        The <name/> contains <value-of select="name(descendant::*[contains(@class, ' topic/image ')])"/>.
+        Using <value-of select="name(descendant::*[contains(@class, ' topic/image ')])"/> in this context is ill-adviced.
+      </report>
+    <!-- XXX: Can this actually ever happen? -->
+      <report test="descendant::*[contains(@class, ' topic/object ')]" role="warning">
+        The <name/> contains <value-of select="name(descendant::*[contains(@class, ' topic/object ')])"/>.
+        Using <value-of select="name(descendant::*[contains(@class, ' topic/object ')])"/> in this context is ill-adviced.
+      </report>
+      <report test="descendant::*[contains(@class, ' hi-d/sup ')]" role="warning">
+        The <name/> contains <value-of select="name(descendant::*[contains(@class, ' hi-d/sup ')])"/>.
+        Using <value-of select="name(descendant::*[contains(@class, ' hi-d/sup ')])"/> in this context is ill-adviced.
+      </report>
+      <report test="descendant::*[contains(@class, ' hi-d/sub ')]" role="warning">
+        The <name/> contains <value-of select="name(descendant::*[contains(@class, ' hi-d/sub ')])"/>.
+        Using <value-of select="name(descendant::*[contains(@class, ' hi-d/sub ')])"/> in this context is ill-adviced.
+      </report>
+    </rule>
   </pattern>
-
-  <!-- XXX: Can this actually ever happen? -->
-  <pattern is-a="nested_element" id="object_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
-    <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
-    <param name="descendant" value="*[contains(@class, ' topic/object ')]"/>
-  </pattern>
-
-  <pattern is-a="nested_element" id="sup_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
-    <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
-    <param name="descendant" value="*[contains(@class, ' hi-d/sup ')]"/>
-  </pattern>
-
-  <pattern is-a="nested_element" id="sub_in_pre" see="http://www.w3.org/TR/html/#prohibitions">
-    <param name="element" value="*[contains(@class, ' topic/pre ')]"/>
-    <param name="descendant" value="*[contains(@class, ' hi-d/sub ')]"/>
-  </pattern>  
 
   <!-- Authoring -->
 
