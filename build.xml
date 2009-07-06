@@ -5,7 +5,8 @@
     <tstamp>
       <format property="DATE_STAMP" pattern="yyyyMMddhhmmssSSS"/>
     </tstamp>
-    <property name="sch.dir" location="${basedir}/src/sch"/>
+    <property name="src.dir" location="${basedir}/src"/>
+    <property name="sch.dir" location="${src.dir}/sch"/>
     <property name="dist.dir" location="${basedir}/dist"/>
     <property name="tmp.dir" location="${basedir}/work"/>
     <property name="work.dir" location="${tmp.dir}/${DATE_STAMP}"/>
@@ -22,6 +23,7 @@
     <fail unless="release.version">Property 'release.version' not set</fail>
     <mkdir dir="${dist.dir}"/>
     <zip file="${dist.dir}/dita-schematron_${release.version}.zip">
+      <fileset dir="${src.dir}" includes="LICENSE"/>
       <fileset dir="${sch.dir}">
         <include name="dita-*.sch"/>
       </fileset>
