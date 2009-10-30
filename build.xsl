@@ -86,11 +86,11 @@
   <xsl:template match="comment()" priority="100"/>
 
   <xsl:template match="text()">
-    <xsl:if test="preceding-sibling::*">
+    <xsl:if test="preceding-sibling::* and not(normalize-space(substring(., 1, 1)))">
       <xsl:text> </xsl:text>
     </xsl:if>
     <xsl:value-of select="normalize-space(.)"/>
-    <xsl:if test="following-sibling::*">
+    <xsl:if test="following-sibling::* and not(normalize-space(substring(., string-length(.), 1)))">
       <xsl:text> </xsl:text>
     </xsl:if>
   </xsl:template>
