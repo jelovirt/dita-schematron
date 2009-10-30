@@ -11,8 +11,6 @@
 
   <xsl:strip-space elements="*"/>
 
-  <xsl:output indent="yes"/>
-
   <xsl:key name="pattern" match="sch:pattern[@id]" use="@id"/>
   
   <xsl:function name="e:matches" as="xs:boolean">
@@ -86,6 +84,16 @@
   <xsl:template match="@e:*" priority="100"/>
 
   <xsl:template match="comment()" priority="100"/>
+
+  <xsl:template match="text()">
+    <xsl:if test="preceding-sibling::*">
+      <xsl:text> </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="normalize-space(.)"/>
+    <xsl:if test="following-sibling::*">
+      <xsl:text> </xsl:text>
+    </xsl:if>
+  </xsl:template>
 
   <xsl:template match="node() | @*" name="copy" priority="-1">
     <xsl:copy>
