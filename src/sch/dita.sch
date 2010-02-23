@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron"
-        xmlns:e="http://dita-schematron.github.com/"
+        xmlns:e="http://github.com/jelovirt/dita-schematron"
         defaultPhase="specificationMandates">
 
   <p>Copyright 2009 Jarno Elovirta &lt;http://www.elovirta.com/></p>
@@ -22,6 +22,7 @@
   <!-- Phases -->
 
   <phase id="specificationMandates">
+    <!-- mandated per spec -->
     <active pattern="otherrole"/>
     <active pattern="othernote"/>
     <active pattern="indextermref"/>
@@ -29,13 +30,8 @@
     <active pattern="keyref_attr"/>
   </phase>
 
-  <phase id="recommendations">
-    <active pattern="otherrole"/>
-    <active pattern="othernote"/>
-    <active pattern="indextermref"/>
-    <active pattern="collection-type_on_rel"/>
-    <active pattern="keyref_attr"/>
-    
+  <phase id="recommendations" e:extends="specificationMandates">
+    <!-- recommended per spec -->
     <active pattern="role_attr_value"/>
     <active pattern="boolean"/>
     <active pattern="image_alt_attr"/>
@@ -44,13 +40,14 @@
     <active pattern="shortdesc_length"/>
     <active pattern="navtitle"/>
     <active pattern="map_title_attribute"/>
-    
+    <!-- recommended per convention -->
     <active pattern="self_nested_xref"/>
     <active pattern="pre_content"/>
     <active pattern="abstract_shortdesc"/>
   </phase>
   
   <phase id="authoringRecommendations">
+    <!-- recommended per authoring convention -->
     <active pattern="xref_in_title"/>
     <!--active pattern="idless_title"/-->
     <active pattern="required-cleanup"/>
