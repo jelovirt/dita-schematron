@@ -46,7 +46,8 @@
     <active pattern="map_title_attribute"/>
     
     <active pattern="self_nested_xref"/>
-    <active pattern="pre_content"/>  
+    <active pattern="pre_content"/>
+    <active pattern="abstract_shortdesc"/>
   </phase>
   
   <phase id="authoringRecommendations">
@@ -268,6 +269,14 @@
         The <name/> contains <value-of select="name(descendant::*[contains(@class, ' hi-d/sub ')])"/>.
         Using <value-of select="name(descendant::*[contains(@class, ' hi-d/sub ')])"/> in this context is ill-adviced.
       </report>
+    </rule>
+  </pattern>
+  
+  <pattern id="abstract_shortdesc">
+    <rule context="*[contains(@class, ' topic/abstract ')]">
+      <assert test="*[contains(@class, ' topic/shortdesc ')]" role="warning">
+        Abstract should contain at least one shortdesc element.
+      </assert>
     </rule>
   </pattern>
 

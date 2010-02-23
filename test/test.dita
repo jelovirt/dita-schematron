@@ -101,7 +101,7 @@
       </p>
     </body>
   </topic>
-  <topic id="">
+  <topic id="pre_content">
     <title/>
     <body>
       <pre>
@@ -119,6 +119,10 @@
       </pre>
     </body>
   </topic>
+  <topic id="abstract_shortdesc">
+    <title/>
+    <abstract/>
+  </topic>  
   <topic id="xref_in_title">
     <title>
       <b>
