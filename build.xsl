@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-      xmlns="http://purl.oclc.org/dsdl/schematron"
-      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-      xmlns:e="http://github.com/jelovirt/dita-schematron"
-      exclude-result-prefixes="xs e sch"
-      version="2.0">
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns="http://purl.oclc.org/dsdl/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:e="http://github.com/jelovirt/dita-schematron"
+                exclude-result-prefixes="xs e sch"
+                version="2.0">
 
   <xsl:param name="release.version"/>
 
@@ -24,15 +24,21 @@
   <xsl:template match="/">
     <xsl:variable name="root" select="/" as="document-node()"/>
     <xsl:for-each select="(1.1, 1.2)">
-      <xsl:result-document href="{replace(document-uri($root),
-                                          '(.+)\.(.+)',
-                                          concat('$1-',
-                                                 format-number(., '#.0'),
-                                                 '.$2'))}">
-        <xsl:apply-templates select="$root/node()">
-          <xsl:with-param name="version" select="." as="xs:decimal" tunnel="yes" />
-        </xsl:apply-templates>
-      </xsl:result-document>
+      <xsl:variable name="dita-version" select="."/>
+      <xsl:for-each select="('xslt1', 'xslt2')">
+        <xsl:variable name="queryBinding" select="."/>
+        <xsl:result-document href="{replace(document-uri($root),
+                                            '(.+)\.(.+)',
+                                            concat('$1-',
+                                                   format-number($dita-version, '#.0'),
+                                                   '-for-', $queryBinding,
+                                                   '.$2'))}">
+          <xsl:apply-templates select="$root/node()">
+            <xsl:with-param name="version" select="$dita-version" as="xs:decimal" tunnel="yes"/>
+            <xsl:with-param name="queryBinding" select="$queryBinding" as="xs:string" tunnel="yes"/>
+          </xsl:apply-templates>
+        </xsl:result-document>
+      </xsl:for-each>
     </xsl:for-each>
   </xsl:template>
   
@@ -56,8 +62,12 @@
 
   <xsl:template match="sch:schema">
     <xsl:param name="version" as="xs:decimal" tunnel="yes"/>
+    <xsl:param name="queryBinding" as="xs:string" tunnel="yes"/>
     <xsl:element name="{name()}">
       <xsl:apply-templates select="@*"/>
+      <xsl:if test="$queryBinding">
+        <xsl:attribute name="queryBinding" select="$queryBinding"/>
+      </xsl:if>
       <title>
         <xsl:text>Schematron schema for DITA </xsl:text>
         <xsl:value-of select="format-number($version, '#.0')"/>
@@ -68,6 +78,11 @@
         <xsl:text> released </xsl:text>
         <xsl:value-of select="format-date(current-date(), '[Y]-[M01]-[D01]')"/>
         <xsl:text>.</xsl:text>
+      </p>
+      <p>
+        <xsl:text>Copyright </xsl:text>
+        <xsl:value-of select="format-date(current-date(), '[Y]')"/>
+        <xsl:text> Jarno Elovirta &lt;http://www.elovirta.com/&gt;</xsl:text>
       </p>
       <xsl:apply-templates select="node()"/>
     </xsl:element>

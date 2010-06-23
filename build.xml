@@ -23,6 +23,7 @@
   </target>
   
   <target name="compile" depends="-init">
+    <fail unless="release.version">release.version not defined</fail>
     <tempfile destdir="${tmp.dir}" property="temp.file"/>
     <xslt style="build.xsl" in="${sch.dir}/dita.sch" out="${temp.file}">
       <param name="release.version" expression="${release.version}"/>

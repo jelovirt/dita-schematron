@@ -2,8 +2,6 @@
 <schema xmlns="http://purl.oclc.org/dsdl/schematron"
         xmlns:e="http://github.com/jelovirt/dita-schematron"
         defaultPhase="specificationMandates">
-
-  <p>Copyright 2009 Jarno Elovirta &lt;http://www.elovirta.com/></p>
   
   <p>Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
