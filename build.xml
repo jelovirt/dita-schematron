@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project name="dita-schematron">
   
   <target name="-init">
     <tstamp>
@@ -8,15 +8,26 @@
     <property name="src.dir" location="${basedir}/src"/>
     <property name="sch.dir" location="${src.dir}/sch"/>
     <property name="dist.dir" location="${basedir}/dist"/>
+    <property environment="env"/>
+    <condition property="tmp.dir" value="${env.TEMP}/${ant.project.name}">
+      <isset property="env.TEMP"/>
+    </condition>
+    <condition property="tmp.dir" value="${env.TMP}/${ant.project.name}">
+      <isset property="env.TMP"/>
+    </condition>
+    <condition property="tmp.dir" value="${env.TMPDIR}/${ant.project.name}">
+      <isset property="env.TMPDIR"/>
+    </condition>
     <property name="tmp.dir" location="${basedir}/work"/>
     <property name="work.dir" location="${tmp.dir}/${DATE_STAMP}"/>
   </target>
   
   <target name="compile" depends="-init">
-    <xslt style="build.xsl" in="${sch.dir}/dita.sch" out="${sch.dir}/out.xml">
+    <tempfile destdir="${tmp.dir}" property="temp.file"/>
+    <xslt style="build.xsl" in="${sch.dir}/dita.sch" out="${temp.file}">
       <param name="release.version" expression="${release.version}"/>
     </xslt>
-    <delete file="${sch.dir}/out.xml"/>
+    <delete file="${temp.file}"/>
   </target>
   
   <target name="dist" depends="-init, compile">
