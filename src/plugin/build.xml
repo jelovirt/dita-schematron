@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.github.dita-schematron">
+  
+  <dirname property="com.github.dita-schematron.dir" file="${ant.file.com.github.dita-schematron}"/>
+  
+  <target name="com.github.dita-schematron.preprocess.post">
+    <xslt basedir="${dita.temp.dir}"
+          destdir="${dita.temp.dir}"
+          includesfile="${dita.temp.dir}${file.separator}${fullditamapandtopicfile}"
+          extension=".res" 
+          classpathref="dost.class.path"
+          style="${com.github.dita-schematron.dir}/xslt/dita-1.2-for-xslt2.xsl">
+      <excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"/>
+    </xslt>
+    <delete>
+      <fileset dir="${dita.temp.dir}">
+        <include name="**/*.${out.ext}.res"/>
+      </fileset>
+    </delete>
+  </target>
+  
+</project>

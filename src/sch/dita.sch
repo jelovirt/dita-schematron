@@ -62,7 +62,7 @@
 
   <pattern abstract="true" id="self_nested_element">
     <rule context="$element">
-      <report test="descendant::$element">
+      <report test="descendant::$element" role="warning">
         The <name/> contains a <name/>. The results in processing are undefined.
       </report>
     </rule>

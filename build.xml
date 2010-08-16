@@ -7,6 +7,7 @@
     </tstamp>
     <property name="src.dir" location="${basedir}/src"/>
     <property name="sch.dir" location="${src.dir}/sch"/>
+    <property name="plugin.dir" location="${src.dir}/plugin"/>
     <property name="dist.dir" location="${basedir}/dist"/>
     <property environment="env"/>
     <condition property="tmp.dir" value="${env.TEMP}/${ant.project.name}">
@@ -20,6 +21,8 @@
     </condition>
     <property name="tmp.dir" location="${basedir}/work"/>
     <property name="work.dir" location="${tmp.dir}/${DATE_STAMP}"/>
+    <property name="build.dir" location="${basedir}/build"/>
+    <property name="compiler.dir" location="${basedir}/iso-schematron-xslt2"/>    
   </target>
   
   <target name="compile" depends="-init">
@@ -31,13 +34,64 @@
     <delete file="${temp.file}"/>
   </target>
   
-  <target name="dist" depends="-init, compile">
+  <target name="xslt-compile" depends="-init, compile">
+    <mkdir dir="${work.dir}"/>
+    <mkdir dir="${build.dir}"/>
+    <xslt style="${compiler.dir}/iso_dsdl_include.xsl"
+          basedir="${sch.dir}" destdir="${work.dir}"
+          extension=".tmp">
+      <include name="*-*.sch"/>
+    </xslt>
+    <xslt style="${compiler.dir}/iso_abstract_expand.xsl"
+          basedir="${work.dir}" destdir="${work.dir}"
+          extension=".sch">
+      <include name="*-*.tmp"/>
+    </xslt>
+    <xslt style="${basedir}/plugin.xsl"
+          basedir="${work.dir}" destdir="${work.dir}"
+          extension=".xsl">
+      <include name="*-*.sch"/>
+      <param name="phase" expression="#ALL"/>
+    </xslt>
+    
+    <xslt style="${basedir}/messages.xsl"
+          in="${work.dir}/dita-1.2-for-xslt2.sch"
+          out="${work.dir}/messages.xml"/>
+    
+    <delete>
+      <fileset dir="${work.dir}">
+        <include name="*.tmp"/>
+        <include name="*.sch"/>
+      </fileset>
+    </delete>
+  </target>
+  
+  <target name="dist.schema" depends="-init, compile">
     <fail unless="release.version">Property 'release.version' not set</fail>
     <mkdir dir="${dist.dir}"/>
     <zip file="${dist.dir}/dita-schematron_${release.version}.zip">
       <fileset dir="${src.dir}" includes="LICENSE"/>
       <fileset dir="${sch.dir}">
         <include name="dita-*.sch"/>
+      </fileset>
+    </zip>
+  </target>
+  
+  <target name="dist.plugin" depends="-init, compile, xslt-compile">
+    <fail unless="release.version">Property 'release.version' not set</fail>
+    <mkdir dir="${dist.dir}"/>
+    <zip file="${dist.dir}/com.github.dita-schematron_${release.version}.zip">
+      <fileset dir="${src.dir}" includes="LICENSE"/>
+      <fileset dir="${plugin.dir}">
+        <include name="plugin.xml"/>
+        <include name="build.xml"/>
+        <include name="integrator.xml"/>
+      </fileset>
+      <zipfileset dir="${work.dir}" prefix="xslt">
+        <include name="*.xsl"/>
+      </zipfileset>
+      <fileset dir="${work.dir}">
+        <include name="messages.xml"/>
       </fileset>
     </zip>
   </target>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="com.github.dita-schematron">
+  
+  <feature extension="package.support.name" value="Jarno Elovirta"/>
+  <feature extension="package.support.email" value="jarno@elovirta.com"/>
+  <feature extension="package.version" value="@@@release.version@@@"/> 
+  
+  <feature extension="dita.conductor.target.relative" value="integrator.xml" type="file"/>
+  <feature extension="depend.preprocess.post" value="com.github.dita-schematron.preprocess.post"/>
+  <feature extension="dita.xsl.messages" value="messages.xml" type="file"/>
+  
+</plugin>
