@@ -52,6 +52,7 @@
     <!--active pattern="spec_attrs"/-->
     <active pattern="no_topic_nesting"/>
     <active pattern="tm_character"/>
+    <active pattern="multiple_section_titles"/>
   </phase>
   
   <phase id="wai">
@@ -329,6 +330,14 @@
       </report>
       <report test="contains(., '®')" role="warning">
         It's preferable to use tm element instead of ® character.
+      </report>
+    </rule>
+  </pattern>
+  
+  <pattern id="multiple_section_titles">
+    <rule context="*[contains(@class, ' topic/section ')]">
+      <report test="count(*[contains(@class, ' topic/title ')]) > 1" role="warning">
+        <name/> should only contain one title element.
       </report>
     </rule>
   </pattern>
