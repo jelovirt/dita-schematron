@@ -1,12 +1,9 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:axsl="http://www.w3.org/1999/XSL/TransformAlias"
-                xmlns:schold="http://www.ascc.net/xml/schematron"
                 xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                xmlns:ditamsg="http://dita-ot.sourceforge.net/ns/200704/ditamsg"
-                exclude-result-prefixes="ditamsg schold iso xsl xs"
-                version="2.0"><!--xmlns:svrl="http://purl.oclc.org/dsdl/svrl"-->
+                exclude-result-prefixes="iso xsl xs"
+                version="2.0">
 
   <xsl:import href="iso-schematron-xslt2/iso_schematron_skeleton_for_saxon.xsl"/>
 

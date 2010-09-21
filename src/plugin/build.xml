@@ -3,7 +3,7 @@
   
   <dirname property="com.github.dita-schematron.dir" file="${ant.file.com.github.dita-schematron}"/>
   
-  <target name="com.github.dita-schematron.preprocess.post">
+  <target name="com.github.dita-schematron.preprocess.post" if="com.github.dita-schematron.enabled">
     <xslt basedir="${dita.temp.dir}"
           destdir="${dita.temp.dir}"
           includesfile="${dita.temp.dir}${file.separator}${fullditamapandtopicfile}"

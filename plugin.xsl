@@ -39,7 +39,7 @@
 
     <axsl:call-template name="output-message">
       <axsl:with-param name="msgnum">
-        <xsl:number format="000" level="any" count="iso:report | iso:assert"></xsl:number>
+        <xsl:number format="000" level="any" count="iso:report | iso:assert"/>
       </axsl:with-param>
       <axsl:with-param name="msgsev">
         <xsl:choose>
@@ -73,7 +73,7 @@
 
     <axsl:call-template name="output-message">
       <axsl:with-param name="msgnum">
-        <xsl:number format="000" level="any" count="iso:report | iso:assert"></xsl:number>
+        <xsl:number format="000" level="any" count="iso:report | iso:assert"/>
       </axsl:with-param>
       <axsl:with-param name="msgsev">
         <xsl:choose>
@@ -93,7 +93,7 @@
   
   <xsl:template match="iso:value-of | iso:name" mode="param">
     <xsl:text>%</xsl:text>
-    <xsl:number level="single" count="iso:value-of | iso:name"></xsl:number>
+    <xsl:number level="single" count="iso:value-of | iso:name"/>
     <xsl:text>=</xsl:text>
     <xsl:apply-templates select="." mode="text"/>
     <xsl:if test="following-sibling::iso:value-of | following-sibling::iso:name">
