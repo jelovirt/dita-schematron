@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <project name="dita-schematron">
   
   <target name="-init">
@@ -21,11 +34,15 @@
     </condition>
     <property name="tmp.dir" location="${basedir}/work"/>
     <property name="work.dir" location="${tmp.dir}/${DATE_STAMP}"/>
-    <property name="build.dir" location="${basedir}/build"/>
-    <property name="compiler.dir" location="${basedir}/iso-schematron-xslt2"/>    
+    <!--property name="build.dir" location="${basedir}/build"/-->
+    <!--property name="compiler.dir" location="${basedir}/iso-schematron-xslt2"/-->
+    <property name="compiler.dir" location="${basedir}/iso-schematron-xslt2"/>
+    <condition property="compiler.exists" value="true">
+      <available file="${compiler.dir}"/>
+    </condition>
   </target>
   
-  <target name="compile" depends="-init">
+  <target name="compile.sch" depends="-init">
     <fail unless="release.version">release.version not defined</fail>
     <tempfile destdir="${tmp.dir}" property="temp.file"/>
     <xslt style="build.xsl" in="${sch.dir}/dita.sch" out="${temp.file}">
@@ -34,9 +51,17 @@
     <delete file="${temp.file}"/>
   </target>
   
-  <target name="xslt-compile" depends="-init, compile">
+  <target name="-init.compile.xslt" depends="-init" unless="compiler.exists">
     <mkdir dir="${work.dir}"/>
-    <mkdir dir="${build.dir}"/>
+    <!--http://www.schematron.com/tmp/iso-schematron-xslt2.zip-->
+    <get src="http://schematron.googlecode.com/files/iso-schematron-xslt2.zip"
+         dest="${work.dir}/iso-schematron-xslt2.zip"/>
+    <unzip src="${work.dir}/iso-schematron-xslt2.zip" dest="${compiler.dir}" overwrite="yes"/>
+  </target>
+	
+  <target name="compile.xslt" depends="-init, compile.sch, -init.compile.xslt">
+    <mkdir dir="${work.dir}"/>
+    <!--mkdir dir="${build.dir}"/-->
     <xslt style="${compiler.dir}/iso_dsdl_include.xsl"
           basedir="${sch.dir}" destdir="${work.dir}"
           extension=".tmp">
@@ -53,20 +78,18 @@
       <include name="*-*.sch"/>
       <param name="phase" expression="#ALL"/>
     </xslt>
-    
-    <xslt style="${basedir}/messages.xsl"
-          in="${work.dir}/dita-1.2-for-xslt2.sch"
-          out="${work.dir}/messages.xml"/>
-    
+        
+    <!--
     <delete>
       <fileset dir="${work.dir}">
         <include name="*.tmp"/>
         <include name="*.sch"/>
       </fileset>
     </delete>
+    -->
   </target>
   
-  <target name="dist.schema" depends="-init, compile">
+  <target name="dist.schema" depends="-init, compile.sch">
     <fail unless="release.version">Property 'release.version' not set</fail>
     <mkdir dir="${dist.dir}"/>
     <zip file="${dist.dir}/dita-schematron_${release.version}.zip">
@@ -77,25 +100,41 @@
     </zip>
   </target>
   
-  <target name="dist.plugin" depends="-init, compile, xslt-compile">
+  <target name="dist.plugin" depends="-init, compile.sch, compile.xslt">
     <fail unless="release.version">Property 'release.version' not set</fail>
+        
     <mkdir dir="${dist.dir}"/>
-    <zip file="${dist.dir}/com.github.dita-schematron_${release.version}.zip">
-      <fileset dir="${src.dir}" includes="LICENSE"/>
+    <xslt style="${basedir}/messages.xsl"
+          in="${work.dir}/dita-1.2-for-xslt2.sch"
+          out="${work.dir}/messages.xml"/>
+    
+    <copy todir="${work.dir}">
       <fileset dir="${plugin.dir}">
         <include name="plugin.xml"/>
+      </fileset>
+      <filterset>
+        <filter token="release.version" value="${release.version}"/>
+      </filterset>
+    </copy>
+    
+    <zip file="${dist.dir}/com.github.dita-schematron_${release.version}.zip">
+      <zipfileset dir="${src.dir}" includes="LICENSE" prefix="com.github.dita-schematron"/>
+      <zipfileset dir="${work.dir}" prefix="com.github.dita-schematron">
+        <include name="plugin.xml"/>
+      </zipfileset>
+      <zipfileset dir="${plugin.dir}" prefix="com.github.dita-schematron">
         <include name="build.xml"/>
         <include name="integrator.xml"/>
-      </fileset>
-      <zipfileset dir="${work.dir}" prefix="xslt">
-        <include name="*.xsl"/>
       </zipfileset>
-      <fileset dir="${work.dir}">
+      <zipfileset dir="${work.dir}" prefix="com.github.dita-schematron/xslt">
+        <include name="dita-1.2-for-xslt2.xsl"/>
+      </zipfileset>
+      <zipfileset dir="${work.dir}" prefix="com.github.dita-schematron/resource">
         <include name="messages.xml"/>
-      </fileset>
+      </zipfileset>
     </zip>
   </target>
-  
+    
   <target name="clean" depends="-init">
     <delete dir="${tmp.dir}"/>
     <delete dir="${dist.dir}"/>

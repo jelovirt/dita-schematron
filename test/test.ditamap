@@ -2,11 +2,13 @@
 <!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "http://docs.oasis-open.org/dita/v1.1/OS/dtd/map.dtd">
 <?oxygen SCHSchema="../src/sch/dita.sch"?>
 <map title="">
+  <topicref href="test.dita"/>
   <topicref navtitle=""/>
   <topicref query=""/>
   <reltable collection-type="choice">
     <relheader>
       <relcolspec collection-type="choice"></relcolspec>
     </relheader>
+    <relrow/>
   </reltable>
 </map>

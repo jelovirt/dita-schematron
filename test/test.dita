@@ -3,10 +3,19 @@
 <?oxygen SCHSchema="../src/sch/dita.sch"?>
 <topic id="test">
   <title>Topic title</title>
+  <topic id="multiple_section_titles">
+    <title/>
+    <body>
+      <section>
+        <title/>
+        <title/>
+      </section>
+    </body>
+  </topic>
   <topic id="otherrole">
     <title/>
     <related-links role="other">
-      <link/>
+      <link href="test.dita"/>
     </related-links>
   </topic>
   <topic id="othernote">
@@ -54,7 +63,7 @@
   <topic id="query_attr">
     <title/>
     <related-links>
-      <link query=""/>
+      <link href="test.dita" query=""/>
     </related-links>
   </topic>
   <topic id="role_attr_value">
@@ -62,7 +71,7 @@
     <topic id="sample">
       <title/>
       <related-links role="sample">
-        <link role="sample"/>
+        <link href="test.dita" role="sample"/>
         <linklist role="sample"/>
         <linkpool role="sample"/>
       </related-links>
@@ -70,7 +79,7 @@
     <topic id="external">
       <title/>
       <related-links role="external">
-        <link role="external"/>
+        <link href="test.dita" role="external"/>
         <linklist role="external"/>
         <linkpool role="external"/>
       </related-links>
@@ -93,9 +102,9 @@
     <shortdesc/>
     <body>
       <p>
-        <xref>
+        <xref href="test.dita">
           <ph>
-            <xref/>
+            <xref href="test.dita"/>
           </ph>
         </xref>
       </p>
@@ -126,7 +135,7 @@
   <topic id="xref_in_title">
     <title>
       <b>
-        <xref/>
+        <xref href="test.dita"/>
       </b>
     </title>
   </topic>

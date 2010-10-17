@@ -10,7 +10,10 @@
 
   <xsl:import href="iso-schematron-xslt2/iso_schematron_skeleton_for_saxon.xsl"/>
 
+  <xsl:output indent="no"/>
+
   <xsl:variable name="msgprefix">DOTS</xsl:variable>
+  <xsl:variable name="message-newline">false</xsl:variable>
 
   <xsl:template match="*" mode="stylesheetbody">
     <axsl:import href="../../../xsl/common/output-message.xsl"/>
