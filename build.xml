@@ -17,6 +17,7 @@
   <target name="-init">
     <tstamp>
       <format property="DATE_STAMP" pattern="yyyyMMddhhmmssSSS"/>
+      <format property="YEAR" pattern="yyyy"/>
     </tstamp>
     <property name="src.dir" location="${basedir}/src"/>
     <property name="sch.dir" location="${src.dir}/sch"/>
@@ -40,6 +41,9 @@
     <condition property="compiler.exists" value="true">
       <available file="${compiler.dir}"/>
     </condition>
+    
+    <filter token="release.version" value="${release.version}"/>
+    <filter token="release.year" value="${YEAR}"/>
   </target>
   
   <target name="compile.sch" depends="-init">
@@ -102,36 +106,42 @@
   
   <target name="dist.plugin" depends="-init, compile.sch, compile.xslt">
     <fail unless="release.version">Property 'release.version' not set</fail>
-        
-    <mkdir dir="${dist.dir}"/>
+            
     <xslt style="${basedir}/messages.xsl"
           in="${work.dir}/dita-1.2-for-xslt2.sch"
           out="${work.dir}/messages.xml"/>
     
-    <copy todir="${work.dir}">
+    <property name="plugin.dist.dir" location="${work.dir}/com.github.dita-schematron"/>
+    <mkdir dir="${plugin.dist.dir}"/>    
+    <copy todir="${plugin.dist.dir}" filtering="yes">
       <fileset dir="${plugin.dir}">
-        <include name="plugin.xml"/>
-      </fileset>
-      <filterset>
-        <filter token="release.version" value="${release.version}"/>
-      </filterset>
-    </copy>
-    
-    <zip file="${dist.dir}/com.github.dita-schematron_${release.version}.zip">
-      <zipfileset dir="${src.dir}" includes="LICENSE" prefix="com.github.dita-schematron"/>
-      <zipfileset dir="${work.dir}" prefix="com.github.dita-schematron">
-        <include name="plugin.xml"/>
-      </zipfileset>
-      <zipfileset dir="${plugin.dir}" prefix="com.github.dita-schematron">
         <include name="build.xml"/>
         <include name="integrator.xml"/>
-      </zipfileset>
-      <zipfileset dir="${work.dir}" prefix="com.github.dita-schematron/xslt">
+        <include name="plugin.xml"/>
+      </fileset>
+    </copy>
+    <copy todir="${plugin.dist.dir}">
+      <fileset dir="${src.dir}">
+        <include name="LICENSE"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${plugin.dist.dir}/xslt"/>
+    <copy todir="${plugin.dist.dir}/xslt" filtering="yes">
+      <fileset dir="${work.dir}">
         <include name="dita-1.2-for-xslt2.xsl"/>
-      </zipfileset>
-      <zipfileset dir="${work.dir}" prefix="com.github.dita-schematron/resource">
+      </fileset>
+    </copy>
+    <mkdir dir="${plugin.dist.dir}/resource"/>
+    <copy todir="${plugin.dist.dir}/resource" filtering="yes">
+      <fileset dir="${work.dir}">
         <include name="messages.xml"/>
-      </zipfileset>
+      </fileset>
+    </copy>
+
+    <zip file="${dist.dir}/com.github.dita-schematron_${release.version}.zip">
+      <fileset dir="${work.dir}">
+        <include name="com.github.dita-schematron/**"/>
+      </fileset>
     </zip>
   </target>
     
