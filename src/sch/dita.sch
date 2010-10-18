@@ -235,7 +235,7 @@
   <pattern id="map_title_attribute" e:ditaVersions="1.1 1.2">
     <rule context="*[contains(@class, ' map/map ')]">
       <report test="@title" role="warning">
-        Map can include a title element, which is preferred over the title attribute
+        Map can include a title element, which is preferred over the title attribute.
       </report>
     </rule>
   </pattern>
