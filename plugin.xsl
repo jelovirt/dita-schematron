@@ -16,6 +16,7 @@
   <xsl:variable name="message-newline">false</xsl:variable>
 
   <xsl:template match="/">
+    <xsl:text>&#xA;</xsl:text>
     <xsl:comment>
   Copyright @release.year@ Jarno Elovirta
   
