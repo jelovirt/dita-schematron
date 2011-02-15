@@ -18,7 +18,7 @@
   <xsl:template match="/">
     <xsl:text>&#xA;</xsl:text>
     <xsl:comment>
-  Copyright @release.year@ Jarno Elovirta
+  Copyright <xsl:value-of select="format-date(current-date(), '[Y]')"/> Jarno Elovirta
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.

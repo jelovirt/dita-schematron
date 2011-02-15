@@ -34,10 +34,10 @@
       </fileset>
     </delete>
   </target>
-	
+  
   <target name="dita2validate" depends="build-init">
     <property name="com.github.dita-schematron.enabled" value="true"/>
-	<antcall target="preprocess"/>
+    <antcall target="preprocess"/>
   </target>
   
 </project>
