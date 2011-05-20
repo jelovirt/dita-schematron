@@ -63,26 +63,37 @@
     <unzip src="${work.dir}/iso-schematron-xslt2.zip" dest="${compiler.dir}" overwrite="yes"/>
   </target>
 	
+  <macrodef name="compile">
+    <attribute name="phase"/>
+    <attribute name="suffix"/>
+    <sequential>
+      <xslt style="${compiler.dir}/iso_dsdl_include.xsl"
+        basedir="${sch.dir}" destdir="${work.dir}"
+        extension=".tmp" force="true">
+        <include name="dita-1.2-for-xslt2.sch"/>
+        <!--include name="*-*.sch"/-->
+      </xslt>
+      <xslt style="${compiler.dir}/iso_abstract_expand.xsl"
+        basedir="${work.dir}" destdir="${work.dir}"
+        extension=".sch" force="true">
+        <include name="*-*.tmp"/>
+      </xslt>
+      <xslt style="${basedir}/plugin.xsl"
+        basedir="${work.dir}" destdir="${work.dir}"
+        extension="@{suffix}.xsl" force="true">
+        <include name="*-*.sch"/>
+        <param name="phase" expression="@{phase}"/>
+      </xslt>
+    </sequential>
+  </macrodef>
+	
   <target name="compile.xslt" depends="-init, compile.sch, -init.compile.xslt">
     <mkdir dir="${work.dir}"/>
-    <!--mkdir dir="${build.dir}"/-->
-    <xslt style="${compiler.dir}/iso_dsdl_include.xsl"
-          basedir="${sch.dir}" destdir="${work.dir}"
-          extension=".tmp">
-      <include name="*-*.sch"/>
-    </xslt>
-    <xslt style="${compiler.dir}/iso_abstract_expand.xsl"
-          basedir="${work.dir}" destdir="${work.dir}"
-          extension=".sch">
-      <include name="*-*.tmp"/>
-    </xslt>
-    <xslt style="${basedir}/plugin.xsl"
-          basedir="${work.dir}" destdir="${work.dir}"
-          extension=".xsl">
-      <include name="*-*.sch"/>
-      <param name="phase" expression="#ALL"/>
-    </xslt>
-        
+    <compile phase="#ALL" suffix=""/>
+    <compile phase="mandatory" suffix="-mandatory"/>
+    <compile phase="recommendation" suffix="-recommendation"/>
+    <compile phase="author" suffix="-author"/>
+    <compile phase="other" suffix="-other"/>
     <!--
     <delete>
       <fileset dir="${work.dir}">
@@ -99,7 +110,10 @@
     <zip file="${dist.dir}/dita-schematron_${release.version}.zip">
       <fileset dir="${src.dir}" includes="LICENSE"/>
       <fileset dir="${sch.dir}">
-        <include name="dita-*.sch"/>
+        <include name="dita-1.1-for-xslt1.sch"/>
+        <include name="dita-1.1-for-xslt2.sch"/>
+        <include name="dita-1.2-for-xslt1.sch"/>
+        <include name="dita-1.2-for-xslt2.sch"/>
       </fileset>
     </zip>
   </target>
@@ -128,7 +142,7 @@
     <mkdir dir="${plugin.dist.dir}/xslt"/>
     <copy todir="${plugin.dist.dir}/xslt" filtering="yes">
       <fileset dir="${work.dir}">
-        <include name="dita-1.2-for-xslt2.xsl"/>
+        <include name="dita-1.2-for-xslt2*.xsl"/>
       </fileset>
     </copy>
     <mkdir dir="${plugin.dist.dir}/resource"/>

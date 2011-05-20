@@ -1,58 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron"
         xmlns:e="http://github.com/jelovirt/dita-schematron"
-        defaultPhase="specificationMandates">
+        defaultPhase="mandatory">
   
   <ns uri="http://dita.oasis-open.org/architecture/2005/" prefix="ditaarch"/>
-
-  <!-- Phases -->
-
-  <phase id="specificationMandates">
-    <!-- mandated per spec -->
-    <active pattern="otherrole"/>
-    <active pattern="othernote"/>
-    <active pattern="indextermref"/>
-    <active pattern="collection-type_on_rel"/>
-    <active pattern="keyref_attr"/>
-  </phase>
-
-  <phase id="recommendations" e:extends="specificationMandates">
-    <!-- recommended per spec -->
-    <active pattern="role_attr_value"/>
-    <active pattern="boolean"/>
-    <active pattern="image_alt_attr"/>
-    <active pattern="query_attr"/>
-    <active pattern="single_paragraph"/>
-    <active pattern="shortdesc_length"/>
-    <active pattern="navtitle"/>
-    <active pattern="map_title_attribute"/>
-    <!-- recommended per convention -->
-    <active pattern="self_nested_xref"/>
-    <active pattern="pre_content"/>
-    <active pattern="abstract_shortdesc"/>
-  </phase>
-  
-  <phase id="authoringRecommendations">
-    <!-- recommended per authoring convention -->
-    <active pattern="xref_in_title"/>
-    <!--active pattern="idless_title"/-->
-    <active pattern="required-cleanup"/>
-    <!--active pattern="spec_attrs"/-->
-    <active pattern="no_topic_nesting"/>
-    <active pattern="tm_character"/>
-    <active pattern="multiple_section_titles"/>
-  </phase>
-  
-  <phase id="wai">
-    <active pattern="no_alt_desc"/>
-  </phase>
 
   <!-- Abstract patterns -->
 
   <pattern abstract="true" id="self_nested_element">
     <rule context="$element">
       <report test="descendant::$element" role="warning">
-        The <name/> contains a <name/>. The results in processing are undefined.
+        The <name/> element contains <name/> element. The results in processing are undefined.
       </report>
     </rule>
   </pattern>
@@ -60,7 +18,7 @@
   <pattern abstract="true" id="nested_element">
     <rule context="$element">
       <report test="descendant::$descendant">
-        The <name/> contains <value-of select="name(descendant::$descendant)"/>.
+        The <name/> element contains <value-of select="name(descendant::$descendant)"/> element.
         Using <value-of select="name(descendant::$descendant)"/> in this context is ill-adviced.
       </report>
     </rule>
@@ -109,21 +67,24 @@
 
   <!-- Required per spec -->
 
-  <pattern id="otherrole" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
+  <pattern id="otherrole" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html"
+           e:phases="mandatory recommendation">
     <rule context="*[@role = 'other']">
       <assert test="@otherrole" role="error">
-        <name/> with role 'other' should have otherrole attribute set. </assert>
+        The <name/> element with role attribute value 'other' should have otherrole attribute set. </assert>
     </rule>
   </pattern>
 
-  <pattern id="othernote" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/thetypeattribute.html">
+  <pattern id="othernote" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/thetypeattribute.html"
+           e:phases="mandatory recommendation">
     <rule context="*[contains(@class,' topic/note ')][@type = 'other']">
       <assert test="@othertype" role="error">
-        <name/> with type 'other' should have othertype attribute set. </assert>
+        The <name/> element with type attribute value 'other' should have othertype attribute set. </assert>
     </rule>
   </pattern>
 
-  <pattern id="indextermref" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html">
+  <pattern id="indextermref" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/indextermref.html"
+           e:phases="mandatory recommendation">
     <rule context="*">
       <report test="*[contains(@class, ' topic/indextermref ')]" role="error">
         The <value-of select="name(*[contains(@class, ' topic/indextermref ')])"/> element is reserved for future use. 
@@ -131,7 +92,8 @@
     </rule>
   </pattern>
 
-  <pattern id="collection-type_on_rel" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html">
+  <pattern id="collection-type_on_rel" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/topicref-atts.html"
+           e:phases="mandatory recommendation">
     <rule context="*[contains(@class, ' map/reltable ')] 
                  | *[contains(@class, ' map/relcolspec ')]">
       <report test="@collection-type" role="error">
@@ -141,8 +103,9 @@
   </pattern>
   
   <pattern id="keyref_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/othercommon.html"
-           e:ditaVersions="1.0 1.1">
-    <rule context="*"><!--[ancestor-or-self::*/@ditaarch:DITAArchVersion &lt;= 1.1]-->
+           e:ditaVersions="1.0 1.1"
+           e:phases="mandatory recommendation">
+    <rule context="*">
       <report test="@keyref" role="error">
         The keyref attribute on <name/> is reserved for future use.
       </report>
@@ -151,7 +114,8 @@
   
   <!-- Recommended per spec -->
 
-  <pattern id="boolean" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html">
+  <pattern id="boolean" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/boolean.html"
+           e:phases="recommendation other">
     <rule context="*">
       <report test="*[contains(@class, ' topic/boolean ')]" diagnostics="state_element" role="warning">
         The <value-of select="name(*[contains(@class, ' topic/boolean ')])"/> element is deprecated.
@@ -159,15 +123,27 @@
     </rule>
   </pattern>  
 
-  <pattern id="image_alt_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html">
+  <pattern id="image_alt_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' topic/image ')]">
       <report test="@alt" diagnostics="alt_element" role="warning">
         The alt attribute is deprecated.
       </report>
     </rule>
   </pattern>
+  
+  <pattern id="image_longdescref_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html"
+    e:phases="recommendation other">
+    <rule context="*[contains(@class, ' topic/image ')]">
+      <report test="@longdescref" diagnostics="longdescref_element" role="warning">
+        The longdescref attribute is deprecated.
+      </report>
+    </rule>
+  </pattern>
+   
 
-  <pattern id="query_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html">
+  <pattern id="query_attr" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/link.html"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' topic/link ')]
                  | *[contains(@class, ' map/topicref ')]">
       <report test="@query" role="warning">
@@ -176,7 +152,8 @@
     </rule>
   </pattern>
   
-  <pattern id="role_attr_value" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html">
+  <pattern id="role_attr_value" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/common/theroleattribute.html"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' topic/related-links ')]
                  | *[contains(@class, ' topic/link ')]
                  | *[contains(@class, ' topic/linklist ')]
@@ -190,7 +167,8 @@
     </rule>
   </pattern>
 
-  <pattern id="single_paragraph" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html">
+  <pattern id="single_paragraph" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' topic/topic ')]"
           subject="*[contains(@class, ' topic/body ')]/*[contains(@class, ' topic/p ')]">
       <report test="not(*[contains(@class, ' topic/shortdesc ')] | *[contains(@class, ' topic/abstract ')]) and
@@ -202,7 +180,8 @@
     </rule>
   </pattern>
   
-  <pattern id="shortdesc_length" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html">
+  <pattern id="shortdesc_length" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/shortdesc.html"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' topic/shortdesc ')]">
       <let name="text" value="normalize-space(.)"/>
       <!-- This is a rudimentary guess that could be improved --> 
@@ -212,7 +191,9 @@
     </rule>
   </pattern>
   
-  <pattern id="navtitle" e:ditaVersions="1.2">
+  <pattern id="navtitle"
+           e:ditaVersions="1.2"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' map/topicref ')]">
       <report test="@navtitle" diagnostics="navtitle_element" role="warning">
         The navtitle attribute is deprecated.
@@ -220,7 +201,9 @@
     </rule>    
   </pattern>
   
-  <pattern id="map_title_attribute" e:ditaVersions="1.1 1.2">
+  <pattern id="map_title_attribute"
+           e:ditaVersions="1.1 1.2"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' map/map ')]">
       <report test="@title" role="warning">
         Map can include a title element, which is preferred over the title attribute.
@@ -230,17 +213,19 @@
   
   <!-- Recommended per convention -->
 
-  <pattern is-a="self_nested_element" id="self_nested_xref" see="http://www.w3.org/TR/html/#prohibitions">
+  <pattern is-a="self_nested_element" id="self_nested_xref" see="http://www.w3.org/TR/html/#prohibitions"
+           e:phases="recommendation other">
     <param name="element" value="*[contains(@class, ' topic/xref ')]"/>
   </pattern>
   
-  <pattern id="pre_content" see="http://www.w3.org/TR/html/#prohibitions">
+  <pattern id="pre_content" see="http://www.w3.org/TR/html/#prohibitions"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' topic/pre ')]">
       <report test="descendant::*[contains(@class, ' topic/image ')]" role="warning">
         The <name/> contains <value-of select="name(descendant::*[contains(@class, ' topic/image ')])"/>.
         Using <value-of select="name(descendant::*[contains(@class, ' topic/image ')])"/> in this context is ill-adviced.
       </report>
-    <!-- XXX: Can this actually ever happen? -->
+      <!-- XXX: Can this actually ever happen? -->
       <report test="descendant::*[contains(@class, ' topic/object ')]" role="warning">
         The <name/> contains <value-of select="name(descendant::*[contains(@class, ' topic/object ')])"/>.
         Using <value-of select="name(descendant::*[contains(@class, ' topic/object ')])"/> in this context is ill-adviced.
@@ -256,7 +241,8 @@
     </rule>
   </pattern>
   
-  <pattern id="abstract_shortdesc">
+  <pattern id="abstract_shortdesc"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' topic/abstract ')]">
       <assert test="*[contains(@class, ' topic/shortdesc ')]" role="warning">
         Abstract should contain at least one shortdesc element.
@@ -266,7 +252,8 @@
 
   <!-- Authoring -->
 
-  <pattern id="xref_in_title">
+  <pattern id="xref_in_title"
+           e:phases="author other">
     <rule context="*[contains(@class, ' topic/title ')]">
       <report test="descendant::*[contains(@class, ' topic/xref ')]" diagnostics="title_links" role="warning">
         The <name/> contains <name path="descendant::*[contains(@class, ' topic/xref ')]"/>.
@@ -274,15 +261,17 @@
     </rule>
   </pattern>
 
+  <!-- Deprecated -->
   <pattern id="idless_title">
     <rule context="*[not(@id)]">
       <report test="*[contains(@class, ' topic/title ')]" diagnostics="link_target" role="warning">
-        <name/> with a title should have an id attribute.
+        The <name/> element with a title should have an id attribute.
       </report>
     </rule>
   </pattern>
 
-  <pattern id="required-cleanup">
+  <pattern id="required-cleanup"
+           e:phases="author other">
     <rule context="*">
       <report test="*[contains(@class, ' topic/required-cleanup ')]" role="warning">
         A required-cleanup element is used as a placeholder for migrated elements and should not be used in documents by authors.
@@ -290,25 +279,17 @@
     </rule>
   </pattern>
 
-  <!-- validation does not skip non-defaulted use.
-  <pattern id="spec_attrs">
-    <rule context="@spectitle | specentry">
-      <report test="." role="warn">
-        <name/> attribute is not intended for direct use by authors.
-      </report>
-    </rule>
-  </pattern>
-  -->
-
-  <pattern id="no_topic_nesting">
+  <pattern id="no_topic_nesting"
+           e:phases="author other">
     <rule context="no-topic-nesting">
       <report test="." role="warning">
-        <name/> element is not intended for direct use by authors, and has no associated output
+        The <name/> element is not intended for direct use by authors, and has no associated output
         processing. </report>
     </rule>
   </pattern>
   
-  <pattern id="tm_character" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/tm.html">
+  <pattern id="tm_character" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/tm.html"
+           e:phases="author other">
     <rule context="text()">
       <report test="contains(., '™')" role="warning">
         It's preferable to use tm element instead of ™ character.
@@ -322,17 +303,19 @@
     </rule>
   </pattern>
   
-  <pattern id="multiple_section_titles">
+  <pattern id="multiple_section_titles"
+           e:phases="author other">
     <rule context="*[contains(@class, ' topic/section ')]">
       <report test="count(*[contains(@class, ' topic/title ')]) > 1" role="warning">
-        <name/> should only contain one title element.
+        The <name/> element should only contain one title element.
       </report>
     </rule>
   </pattern>
   
   <!-- WAI -->
   
-  <pattern id="no_alt_desc" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html">
+  <pattern id="no_alt_desc" see="http://docs.oasis-open.org/dita/v1.1/OS/langspec/langref/image.html"
+           e:phases="recommendation other">
     <rule context="*[contains(@class, ' topic/image ')]">
       <assert test="@alt | alt" flag="non-WAI" role="warning">
         Alternative description should be provided for users using screen readers or text-only readers.
@@ -359,6 +342,9 @@
     </diagnostic>
     <diagnostic id="alt_element">
       The alt element should be used instead.
+    </diagnostic>
+    <diagnostic id="longdescref_element">
+      The longdescref element should be used instead.
     </diagnostic>
     <diagnostic id="link_target">
       Elements with titles are candidate targets for elements level links.

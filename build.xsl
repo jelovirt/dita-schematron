@@ -21,25 +21,41 @@
                           satisfies $v eq $version"/>
   </xsl:function>
 
+  <xsl:variable name="root" select="/" as="document-node()"/>
+  <xsl:variable name="phases" select="distinct-values(sch:schema/sch:pattern/@e:phases/tokenize(., '\s+'))"/>  
+
   <xsl:template match="/">
-    <xsl:variable name="root" select="/" as="document-node()"/>
-    <xsl:for-each select="(1.1, 1.2)">
-      <xsl:variable name="dita-version" select="."/>
-      <xsl:for-each select="('xslt1', 'xslt2')">
-        <xsl:variable name="queryBinding" select="."/>
-        <xsl:result-document href="{replace(document-uri($root),
-                                            '(.+)\.(.+)',
-                                            concat('$1-',
-                                                   format-number($dita-version, '#.0'),
-                                                   '-for-', $queryBinding,
-                                                   '.$2'))}">
-          <xsl:apply-templates select="$root/node()">
-            <xsl:with-param name="version" select="$dita-version" as="xs:decimal" tunnel="yes"/>
-            <xsl:with-param name="queryBinding" select="$queryBinding" as="xs:string" tunnel="yes"/>
-          </xsl:apply-templates>
-        </xsl:result-document>
+    <xsl:for-each select="($phases, '')">
+      <xsl:variable name="phase" select="."/>
+      <xsl:for-each select="(1.1, 1.2)">
+        <xsl:variable name="dita-version" select="."/>
+        <xsl:for-each select="('xslt1', 'xslt2')">
+          <xsl:variable name="queryBinding" select="."/>
+          <xsl:result-document href="{replace(document-uri($root),
+                                              '(.+)\.(.+)',
+                                              concat('$1-',
+                                                     format-number($dita-version, '#.0'),
+                                                     '-for-', $queryBinding,
+                                                     if (string-length($phase) ne 0) then concat('-', $phase) else '',
+                                                     '.$2'))}">
+            <xsl:apply-templates select="$root/node()">
+              <xsl:with-param name="version" select="$dita-version" as="xs:decimal" tunnel="yes"/>
+              <xsl:with-param name="queryBinding" select="$queryBinding" as="xs:string" tunnel="yes"/>
+              <xsl:with-param name="phase" select="$phase" as="xs:string" tunnel="yes"/>
+            </xsl:apply-templates>
+          </xsl:result-document>
+        </xsl:for-each>
       </xsl:for-each>
     </xsl:for-each>
+  </xsl:template>
+  
+  <xsl:template match="sch:pattern[not(@abstract = 'true')]">
+    <xsl:param name="phase" as="xs:string" tunnel="yes"/>
+    <xsl:if test="string-length($phase) eq 0 or (some $i in tokenize(@e:phases, '\s+') satisfies $i eq $phase)">
+      <xsl:element name="{name()}">
+        <xsl:apply-templates select="@* | node()"/>
+      </xsl:element>
+    </xsl:if>
   </xsl:template>
   
   <xsl:template match="*">
@@ -63,6 +79,7 @@
   <xsl:template match="sch:schema">
     <xsl:param name="version" as="xs:decimal" tunnel="yes"/>
     <xsl:param name="queryBinding" as="xs:string" tunnel="yes"/>
+    <xsl:param name="phase" as="xs:string" tunnel="yes"/>
     
     <xsl:text>&#xA;</xsl:text>
     <xsl:comment>
@@ -84,7 +101,7 @@
     <xsl:element name="{name()}">
       <xsl:apply-templates select="@*"/>
       <xsl:if test="$queryBinding">
-        <xsl:attribute name="queryBinding" select="$queryBinding"/>
+        <xsl:attribute name="queryBinding" select="if ($queryBinding eq 'xslt1') then 'xslt' else $queryBinding"/>
       </xsl:if>
       <title>
         <xsl:text>Schematron schema for DITA </xsl:text>
@@ -97,42 +114,24 @@
         <xsl:value-of select="format-date(current-date(), '[Y]-[M01]-[D01]')"/>
         <xsl:text>.</xsl:text>
       </p>
+      <xsl:if test="string-length($phase) eq 0">
+        <xsl:for-each select="$phases">
+          <phase id="{.}">
+            <xsl:for-each select="$root/sch:schema/sch:pattern[some $i in tokenize(@e:phases, '\s+') satisfies $i eq current()]">
+              <active pattern="{@id}"/>
+            </xsl:for-each>
+          </phase>
+        </xsl:for-each>
+      </xsl:if>
       <xsl:apply-templates select="node()"/>
     </xsl:element>
   </xsl:template>
   
-  <xsl:template match="sch:phase">
-    <xsl:element name="{name()}">
-      <xsl:apply-templates select="@*"/>
-      <xsl:apply-templates select="." mode="pull"/>
-    </xsl:element>
-  </xsl:template>
-  
-  <xsl:key name="phase" match="sch:phase[@id]" use="@id"/>
-  <xsl:template match="sch:phase" mode="pull">
-    <xsl:if test="@e:extends">
-      <xsl:apply-templates select="for $p in tokenize(@e:extends, '\s+') return key('phase', $p)" mode="pull"/>
-      <!--
-      <xsl:for-each select="tokenize(@e:extends, '\s+')">
-        <xsl:apply-templates select="//sch:phase[@id eq current()]" mode="pull"/>
-      </xsl:for-each>
-      -->
+  <xsl:template match="@defaultPhase">
+    <xsl:param name="phase" as="xs:string" tunnel="yes"/>
+    <xsl:if test="string-length($phase) eq 0">
+      <xsl:copy/>
     </xsl:if>
-    <xsl:apply-templates/>
-  </xsl:template>
-
-  <xsl:template match="sch:active">
-    <xsl:param name="version" as="xs:decimal" tunnel="yes"/>
-    <xsl:variable name="ref" select="key('pattern', @pattern)"/>
-    <xsl:choose>
-      <xsl:when test="$ref[@e:ditaVersions] and
-                      not(e:matches($ref/@e:ditaVersions, $version))"/>
-      <xsl:otherwise>
-        <xsl:element name="{name()}">
-          <xsl:apply-templates select="@* | node()"/>
-        </xsl:element>
-      </xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="@e:*" priority="100"/>
@@ -152,13 +151,5 @@
   <xsl:template match="@*">
     <xsl:attribute name="{name()}" select="normalize-space(.)"/>
   </xsl:template>
-
-<!--
-  <xsl:template match="node() | @*" name="copy" priority="-1">
-    <xsl:copy>
-      <xsl:apply-templates select="node() | @*"/>
-    </xsl:copy>
-  </xsl:template>
-  -->
     
 </xsl:stylesheet>
