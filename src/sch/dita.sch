@@ -211,6 +211,19 @@
     </rule>
   </pattern>
   
+  <pattern id="topichead_navtitle"
+           e:ditaVersions="1.1 1.2"
+           e:phases="recommendation other">
+    <rule context="*[contains(@class, ' mapgroup-d/topichead ')]">
+      <assert test="@navtitle" role="warning" e:ditaVersions="1.1">
+        The <name/> element should have a navtitle attrbute.
+      </assert>
+      <assert test="@navtitle | *[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' topic/navtitle ')]" role="warning" e:ditaVersions="1.2">
+        The <name/> element should have a navtitle element.
+      </assert>
+    </rule>
+  </pattern>
+
   <!-- Recommended per convention -->
 
   <pattern is-a="self_nested_element" id="self_nested_xref" see="http://www.w3.org/TR/html/#prohibitions"
