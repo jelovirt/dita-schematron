@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron"
         xmlns:e="http://github.com/jelovirt/dita-schematron"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         defaultPhase="mandatory">
   
   <ns uri="http://dita.oasis-open.org/architecture/2005/" prefix="ditaarch"/>
+
+  <!--Report duplicate IDs start pattern-->
+  <xsl:key name="elementsByID" match="*[@id][not(contains(@class, ' topic/topic '))]"
+    use="concat(@id, '#', ancestor::*[contains(@class, ' topic/topic ')][1]/@id)"/>
+  <!--Report duplicate IDs end pattern-->
 
   <!-- Abstract patterns -->
 
@@ -340,6 +346,19 @@
       </assert>
     </rule>
   </pattern>
+  
+  <!--Report duplicate IDs start pattern-->
+  <pattern id="checkIDs" e:phases="mandatory recommendation">
+    <rule context="*[@id]">
+      <let name="k" value="concat(@id, '#', ancestor::*[contains(@class, ' topic/topic ')][1]/@id)"/>
+      <let name="countKey" value="count(key('elementsByID', $k))"/>
+      <report test="$countKey > 1" see="http://docs.oasis-open.org/dita/v1.1/OS/archspec/id.html">
+        The id attribute value "<value-of select="@id"/>" is not unique within the topic that contains it.
+      </report>
+    </rule>
+  </pattern>
+  <!--EXM-21448 Report duplicate IDs end pattern-->
+  
 
   <!-- Diagnostics -->
 
