@@ -352,7 +352,7 @@
     <rule context="*[@id]">
       <let name="k" value="concat(@id, '#', ancestor::*[contains(@class, ' topic/topic ')][1]/@id)"/>
       <let name="countKey" value="count(key('elementsByID', $k))"/>
-      <report test="$countKey > 1" see="http://docs.oasis-open.org/dita/v1.1/OS/archspec/id.html">
+      <report test="$countKey > 1" see="http://docs.oasis-open.org/dita/v1.1/OS/archspec/id.html" role="error">
         The id attribute value "<value-of select="@id"/>" is not unique within the topic that contains it.
       </report>
     </rule>
